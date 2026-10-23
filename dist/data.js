@@ -1,5 +1,7 @@
 // Original beginner learning examples, not official IELTS questions.
 import {EXTRA_WORD_ROWS,EXTRA_GRAMMAR_ROWS} from './extra-data.js';
+import {FOUNDATION_WORD_ROWS} from './vocabulary-foundation.js';
+import {TOPIC_WORD_ROWS} from './vocabulary-topics.js';
 const vocabulary = `
 study|v. 学习|学习起步|I study English every day.|我每天学习英语。
 learn|v. 学会；学习|学习起步|I want to learn a new word.|我想学习一个新单词。
@@ -244,7 +246,7 @@ overall|adv. 总体上|数据与趋势|Overall, the results were positive.|总�
 `;
 const baseRows=vocabulary.trim().split('\n').map(line=>line.split('|'));
 const baseWords=new Set(baseRows.map(row=>row[0]));
-export const WORDS = [...baseRows,...EXTRA_WORD_ROWS.filter(row=>!baseWords.has(row[0]))].map(([word,meaning,topic,example,translation],i)=>({id:`w${String(i+1).padStart(3,'0')}`,word,meaning,topic,example,translation}));
+export const WORDS = [...baseRows,...EXTRA_WORD_ROWS.filter(row=>!baseWords.has(row[0])),...FOUNDATION_WORD_ROWS,...TOPIC_WORD_ROWS].map(([word,meaning,topic,example,translation],i)=>({id:`w${String(i+1).padStart(3,'0')}`,word,meaning,topic,example,translation}));
 const grammarRows = [
  ['一般现在时 · 否定','She ___ coffee every morning.（她每天早上不喝咖啡。）',["doesn't drink","don't drink","doesn't drinks"],0,'主语 she 是第三人称单数，否定句用 does not / doesn’t + 动词原形 drink。','她每天早上不喝咖啡。'],
  ['一般过去时 · 否定','I ___ to school yesterday.', ["didn't went","didn't go","don't go"],1,'yesterday 表示过去。didn’t 后面用动词原形 go，不能再用 went。','我昨天没去上学。'],

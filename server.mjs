@@ -13,7 +13,7 @@ const addresses=Object.values(networkInterfaces()).flat().filter(Boolean).map(x=
 const hosts=new Set(['127.0.0.1','localhost',...addresses].map(host=>`${host}:${port}`));
 const ai=createAiService({directory:fileURLToPath(new URL('./.local/',import.meta.url)),hosts,port});
 const materials=createMaterialService({directory:fileURLToPath(new URL('./.local/materials/',import.meta.url)),resources:RESOURCES,hosts});
-const types = {'.html':'text/html; charset=utf-8','.css':'text/css; charset=utf-8','.js':'text/javascript; charset=utf-8','.svg':'image/svg+xml','.json':'application/json; charset=utf-8'};
+const types = {'.html':'text/html; charset=utf-8','.css':'text/css; charset=utf-8','.js':'text/javascript; charset=utf-8','.svg':'image/svg+xml','.png':'image/png','.webmanifest':'application/manifest+json','.json':'application/json; charset=utf-8'};
 const server = http.createServer(async (req,res) => {
   try {
     const pathname = decodeURIComponent(new URL(req.url,'http://localhost').pathname);
@@ -23,8 +23,9 @@ const server = http.createServer(async (req,res) => {
     const relative = pathname === '/' ? 'index.html' : pathname.slice(1);
     const file = path.resolve(root, relative);
     if (!file.startsWith(root + path.sep) && file !== path.join(root,'index.html')) {res.writeHead(403).end();return;}
-    const data = await readFile(file);
-    res.writeHead(200,{'Content-Type':types[path.extname(file)]||'application/octet-stream','Cache-Control':'no-cache','X-Content-Type-Options':'nosniff'}).end(data);
+    let data = await readFile(file);
+    if(file===path.join(root,'index.html'))data=Buffer.from(data.toString('utf8').replace('<meta name="yan-runtime" content="static">','<meta name="yan-runtime" content="local">'));
+    res.writeHead(200,{'Content-Type':types[path.extname(file)]||'application/octet-stream','Cache-Control':'no-cache','X-Content-Type-Options':'nosniff'}).end(req.method==='HEAD'?undefined:data);
   } catch {res.writeHead(404).end('Not found');}
 });
 server.listen(port,'0.0.0.0',()=>{

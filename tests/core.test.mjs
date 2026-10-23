@@ -3,8 +3,8 @@ import assert from 'node:assert/strict';
 import * as C from '../dist/core.js';
 import {WORDS,GRAMMAR} from '../dist/data.js';
 const date='2026-10-23';
-test('content: 336 unique words and 80 complete original grammar questions',()=>{
- assert.equal(WORDS.length,336);assert.equal(new Set(WORDS.map(w=>w.word)).size,336);assert.equal(GRAMMAR.length,80);
+test('content: 1036 unique words and 80 complete original grammar questions',()=>{
+ assert.equal(WORDS.length,1036);assert.equal(new Set(WORDS.map(w=>w.word)).size,1036);assert.equal(GRAMMAR.length,80);
  for(const w of WORDS)for(const key of ['id','word','meaning','topic','example','translation'])assert.ok(w[key],key);
  for(const q of GRAMMAR){assert.ok(q.options[q.answer]);assert.ok(q.explanation);assert.ok(q.translation);}
 });
@@ -56,7 +56,7 @@ test('backup roundtrip preserves all learning data and rejects corrupted/malicio
  C.addRecord(s,{date,skill:'阅读',title:'<script>alert(1)</script>',correct:19,total:40,minutes:60},date);
  const backup=JSON.stringify(C.exportEnvelope(s));assert.deepEqual(C.parseBackup(backup),s);
  assert.throws(()=>C.parseBackup('{'));assert.throws(()=>C.parseBackup(JSON.stringify({app:'other',schemaVersion:1,data:s})));
- for(const mutate of [x=>x.cards.bad={...x.cards.w001},x=>x.days[date].newIds=['w999'],x=>x.cards.w001.due='2026-02-30',x=>x.records[0].correct=99,x=>x.mistakes[0].resolved='yes',x=>x.settings.targetBand=9]){const broken=structuredClone(s);mutate(broken);assert.throws(()=>C.validateState(broken));}
+ for(const mutate of [x=>x.cards.bad={...x.cards.w001},x=>x.days[date].newIds=['w99999'],x=>x.cards.w001.due='2026-02-30',x=>x.records[0].correct=99,x=>x.mistakes[0].resolved='yes',x=>x.settings.targetBand=9]){const broken=structuredClone(s);mutate(broken);assert.throws(()=>C.validateState(broken));}
  const poison=JSON.parse(JSON.stringify(s));Object.defineProperty(poison.cards,'__proto__',{value:{polluted:true},enumerable:true});assert.throws(()=>C.validateState(poison));assert.equal({}.polluted,undefined);
 });
 test('bank exhaustion does not invent new words',()=>{const s=C.freshState(date);for(const w of WORDS)s.cards[w.id]=C.schedule(null,'good',date);assert.equal(C.ensureDay(s,C.addDays(date,1)).newIds.length,0);assert.equal(C.dueIds(s,C.addDays(date,1)).length,WORDS.length);});

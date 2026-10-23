@@ -15,3 +15,4 @@ YAN-preserved-data-*.json
 *.pem
 *.key
 dist/__qa.html
+.pages/

@@ -40,3 +40,8 @@ v1.2 的完整条目和逐项官方链接见 [RESOURCE-CATALOG.md](RESOURCE-CATA
 - [Qwen3 4B 的 Ollama 页面](https://ollama.com/library/qwen3:4b)：当前示例下载约2.5GB，模型许可证为 Apache-2.0。型号仅是起步示例；性能取决于设备，不保证效果或速度。
 
 模型运行时、模型权重和第三方网站遵循各自的许可证或条款。源码 MIT 许可证不会覆盖这些第三方内容。
+# v1.3 新增词汇与离线网页应用
+
+新增 `vocabulary-foundation.js` 和 `vocabulary-topics.js` 共700个词条，释义与例句为本项目AI辅助原创，未搬运商业词书或官方题库；包含350个日常词和350个场景词。主题分类为学习组织方式，未做官方词频或分数等级认证。
+
+PWA实现参考 [MDN安装指南](https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps/Guides/Making_PWAs_installable)、[Chrome更新处理](https://developer.chrome.com/docs/workbox/handling-service-worker-updates)及 [GitHub Pages发布设置](https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site)。实现为本项目独立代码，不包含上述文档的整段复制。

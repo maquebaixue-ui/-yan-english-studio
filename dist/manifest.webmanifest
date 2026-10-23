@@ -1,0 +1,17 @@
+{
+  "id": "./",
+  "name": "YAN English Studio",
+  "short_name": "YAN English",
+  "description": "每天一点，向雅思目标靠近。离线词汇、语法、练习与学习记录。",
+  "lang": "zh-CN",
+  "start_url": "./#today",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f7f6f2",
+  "theme_color": "#edf2f3",
+  "icons": [
+    {"src": "./icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any"},
+    {"src": "./icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any"},
+    {"src": "./icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable"}
+  ]
+}
