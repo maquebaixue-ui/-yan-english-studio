@@ -1,0 +1,17 @@
+node_modules/
+*.log
+.DS_Store
+tests/fixtures/
+qa/
+*.zip
+*.tar.gz
+.openai/
+.local/
+.env
+.env.*
+!.env.example
+YAN-English-backup-*.json
+YAN-preserved-data-*.json
+*.pem
+*.key
+dist/__qa.html
