@@ -23,10 +23,14 @@
 - 难度标签是编写时的粗略教学定位，不是经过校准的 CEFR 测评结果。
 - 本项目原创内容按根目录 MIT 许可证提供；不包含商业教材音频。听力按钮使用设备已有本地语音合成，明确标注非真人录音。
 
-## 官方材料入口（仅链接，未复制正文）
+## 官方与精选材料（公开仓库仅链接元数据）
 
 - [IELTS Academic 官方样题](https://ielts.org/take-a-test/preparation-resources/sample-test-questions/academic-test)
 - [British Council 免费 IELTS 练习](https://takeielts.britishcouncil.org/prepare/ielts-free-practice-mock-tests)
+
+v1.2 的完整条目和逐项官方链接见 [RESOURCE-CATALOG.md](RESOURCE-CATALOG.md)：59 条目录，包括 25 条雅思官方、12 条 TED、14 条情景剧与美剧、8 条基础英语入口。简介与学习建议由本项目编写；难度建议不是官方测评分级。
+
+下载脚本提供 24 个固定官方 PDF 目标，只保存到忽略目录 `.local/materials`，供本机个人学习。公开仓库与源码 ZIP 不包含这些第三方正文；它们不受本项目 MIT 许可证覆盖。TED 视频/字幕、商业真题书和美剧正片没有复制、抓取或重新发布。媒体练习由用户主动选择自己有权使用的文件。
 
 ## AI 实现依据
 
