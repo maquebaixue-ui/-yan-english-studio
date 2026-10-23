@@ -3,9 +3,9 @@ import assert from 'node:assert/strict';
 import * as C from '../dist/core.js';
 import {WORDS,GRAMMAR} from '../dist/data.js';
 const date='2026-10-23';
-test('content: 1036 unique words and 80 complete original grammar questions',()=>{
- assert.equal(WORDS.length,1036);assert.equal(new Set(WORDS.map(w=>w.word)).size,1036);assert.equal(GRAMMAR.length,80);
- for(const w of WORDS)for(const key of ['id','word','meaning','topic','example','translation'])assert.ok(w[key],key);
+test('content: 6000 unique words and 80 complete original grammar questions',()=>{
+ assert.equal(WORDS.length,6000);assert.equal(new Set(WORDS.map(w=>w.word)).size,6000);assert.equal(GRAMMAR.length,80);
+ for(const w of WORDS){for(const key of ['id','word','meaning','topic'])assert.ok(w[key],key);if(w.source==='ecdict'){assert.ok(w.definition);assert.equal(w.example,null);assert.equal(w.translation,null);}else {assert.ok(w.example);assert.ok(w.translation);}}
  for(const q of GRAMMAR){assert.ok(q.options[q.answer]);assert.ok(q.explanation);assert.ok(q.translation);}
 });
 test('daily allocation is stable and missed words remain available',()=>{

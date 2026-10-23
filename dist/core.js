@@ -34,7 +34,7 @@ export function recordSpelling(s,id,answer,date=today()){
  const correct=normaliseAnswer(answer)===word.word.toLowerCase();
  const day=ensureDay(s,date);day.spellingAttempts++;day.activities++;
  if(correct) resolveMistakes(s,'拼写',id,date);
- else mistake(s,{category:'拼写',refId:id,prompt:word.meaning,answer:word.word,userAnswer:answer,note:`例句：${word.example}`},date);
+ else mistake(s,{category:'拼写',refId:id,prompt:word.meaning,answer:word.word,userAnswer:answer,note:word.example?`例句：${word.example}`:`ECDICT 英语释义：${word.definition}`},date);
  return correct;
 }
 export function rateWord(s,id,rating,mode='new',date=today(),spellingCorrect=true){
@@ -44,7 +44,7 @@ export function rateWord(s,id,rating,mode='new',date=today(),spellingCorrect=tru
  s.cards[id]=schedule(s.cards[id],effective,date);
  addUnique(mode==='new'?day.wordDone:day.reviewDone,id);day.activities++;
  if(effective==='good')resolveMistakes(s,'单词',id,date);
- else mistake(s,{category:'单词',refId:id,prompt:word.word,answer:word.meaning,userAnswer:effective==='again'?'不会':'模糊',note:`${word.example}\n${word.translation}`},date);
+ else mistake(s,{category:'单词',refId:id,prompt:word.word,answer:word.meaning,userAnswer:effective==='again'?'不会':'模糊',note:word.example?`${word.example}\n${word.translation}`:`ECDICT 英语释义：${word.definition}`},date);
  return s.cards[id];
 }
 export function grammarQueue(s,date=today()){

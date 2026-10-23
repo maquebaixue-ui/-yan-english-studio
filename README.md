@@ -59,7 +59,7 @@ npm start
 
 ## 本地内容与功能
 
-- **1,036个独立词**：保留原336词，新增350个日常基础词与350个雅思常见场景词；中文词性释义、原创例句及翻译、拼写练习齐全。约52组每日新词，最后一组按剩余词分配。词库不是官方IELTS词表，不按词数承诺分数。
+- **6,000个独立词**：保留1,036张原创例句卡，新增4,964个MIT开源词典条目（中文与英语释义、可用音标及词形）。支持中英文搜索、按词库筛选、分页预览和单词自主练习；每日新词仍为20个，约300组。词典扩展暂无核验例句，页面明确标注，英语释义不冒充例句。词库不是官方IELTS词表，不按词数承诺分数。
 - **80道语法题**：比初版新增30题；一次一题，解析和错题记录。
 - **32份学习材料**：6篇阅读、4份听力文本、8份基础讲义、6个写作任务、8组口语话题。
 - **50道听读题**：选择/判断、即时解析、错题收录，可保存真实正确题数；不是完整雅思模拟考。
@@ -70,7 +70,7 @@ npm start
 - **官方与精选资料**：官方雅思样题、TED 演讲、生活情景剧及基础英语入口，可搜索和按分类筛选。目录保存在本地；视频不预装，联网条件逐项标明。详见 [资源目录](RESOURCE-CATALOG.md)。
 - **我的影音**：选择自己的音视频及 SRT / VTT / TXT 字幕，点击时间跳转、A–B 循环、0.75 / 1 / 1.25 倍速，保存与导入导出听看笔记。
 
-内置内容为**原创学习示例（AI 辅助编写），非雅思真题**。听力朗读只使用设备已有的本地英语合成声音，明确标注非真人录音；没有本地声音时可阅读文本。没有冒充官方录音、官方评分或已连接的 ChatGPT 账户。
+原创例句卡及练习为**AI辅助编写的学习示例，非雅思真题**。扩展词条来自MIT许可的ECDICT固定版本；完整许可证见 [ECDICT许可](third-party/ECDICT-LICENSE.txt)，来源版本和筛选规则见 [词库来源](dist/vocabulary-source.json)。听力朗读只使用设备已有的本地英语合成声音，明确标注非真人录音；没有本地声音时可阅读文本。没有冒充官方录音、官方评分或已连接的 ChatGPT 账户。
 
 ## 扩充离线资料
 
@@ -142,7 +142,7 @@ dist/                  可独立托管的静态前端
   app.js / core.js     学习界面、状态、复习与备份
   data.js              初版内容及扩充入口（保留旧ID）
   extra-data.js        初期补充词汇与语法
-  vocabulary-*.js      新增700个日常与主题词，旧ID保持稳定
+  vocabulary-*.js      原创基础/主题词、开源扩展和词库检索，旧ID保持稳定
   library-data.js      原创听读材料、讲义与写说任务
   extras.js            资料库与AI界面
   resources-data.js    官方与精选资料链接元数据
@@ -162,3 +162,7 @@ tests/                 核心数据、题库和AI边界测试
 研究了 Qwerty Learner、IELTS Mastery Hub、ts-fsrs 和 Ollama，记录许可证及采用范围于 [SOURCES.md](SOURCES.md)。没有复制商业教材或来源不明的题库。原创材料和代码使用 MIT 许可证。
 
 真实考试练习可访问 [IELTS Academic 官方样题](https://ielts.org/take-a-test/preparation-resources/sample-test-questions/academic-test)和 [British Council 免费练习](https://takeielts.britishcouncil.org/prepare/ielts-free-practice-mock-tests)。本项目与上述机构没有隶属或认可关系。
+
+## 词库扩充与复现
+
+本次筛选ECDICT提交 bc015ed2e24a7abef49fc6dbbb7fe32c1dadaf8b 的 ecdict.csv，校验SHA-256为 1a6947e04785db63613a92e14903cdae7954f7e84860b10e68e5c7cbb3f9c3cf。下载到被忽略的 .local/dictionary/ecdict.csv 后运行 `npm run build:vocabulary`，再运行 `npm test` 和 `npm run build:pages`。下载原始词典不是日常学习所需步骤，发布的精选词条已完整缓存。脚本会拒绝把既有ID映射到另一个词；后续扩充须追加新ID，避免打乱复习。

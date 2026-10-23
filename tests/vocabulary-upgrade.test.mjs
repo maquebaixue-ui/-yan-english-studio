@@ -17,12 +17,12 @@ test('expanded vocabulary preserves all 336 legacy word identities and the 20-wo
 
 test('new four-digit word IDs survive spelling mistakes, review scheduling and backup roundtrip',()=>{
  const last=WORDS.at(-1),s=C.freshState('2026-10-24');
- assert.equal(last.id,'w1036');
+ assert.equal(last.id,'w6000');
  C.recordSpelling(s,last.id,'wrong','2026-10-24');C.rateWord(s,last.id,'fuzzy','review','2026-10-24');
  const loaded=C.parseBackup(JSON.stringify(C.exportEnvelope(s)));
  assert.equal(loaded.cards[last.id].due,'2026-10-25');
  assert.ok(loaded.mistakes.some(m=>m.refId===last.id&&m.category==='拼写'));
- for(const w of WORDS.slice(336)){
+ for(const w of WORDS.slice(336,1036)){
   assert.match(w.meaning,/^(v|n|adj|adv|prep|conj)\./);
   assert.match(w.translation,/[\u4e00-\u9fff]/);
   assert.match(w.example,new RegExp('\\b'+w.word+'(?:s|es)?\\b','i'));

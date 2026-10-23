@@ -3,6 +3,7 @@ const BUILD = '1.3.0-20261024-1';
 const SHELL_FILES = [
   'index.html', 'style.css', 'app.js', 'core.js', 'data.js', 'extra-data.js',
   'vocabulary-foundation.js', 'vocabulary-topics.js',
+  'vocabulary-dictionary.js', 'vocabulary-source.json', 'vocabulary-shelf.js',
   'extras.js', 'library-data.js', 'resources-data.js', 'shelf.js', 'companion.js',
   'media.js', 'pwa.js', 'runtime.js', 'icon.svg', 'manifest.webmanifest',
   'icons/icon-192.png', 'icons/icon-512.png', 'icons/icon-maskable-512.png',

@@ -45,3 +45,9 @@ v1.2 的完整条目和逐项官方链接见 [RESOURCE-CATALOG.md](RESOURCE-CATA
 新增 `vocabulary-foundation.js` 和 `vocabulary-topics.js` 共700个词条，释义与例句为本项目AI辅助原创，未搬运商业词书或官方题库；包含350个日常词和350个场景词。主题分类为学习组织方式，未做官方词频或分数等级认证。
 
 PWA实现参考 [MDN安装指南](https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps/Guides/Making_PWAs_installable)、[Chrome更新处理](https://developer.chrome.com/docs/workbox/handling-service-worker-updates)及 [GitHub Pages发布设置](https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site)。实现为本项目独立代码，不包含上述文档的整段复制。
+
+## v1.4 ECDICT开源扩展
+
+新增4,964个独立词条，与原有1,036词合计6,000词。数据来自 [ECDICT固定提交](https://github.com/skywind3000/ECDICT/tree/bc015ed2e24a7abef49fc6dbbb7fe32c1dadaf8b)，按仓库MIT许可证使用，保留完整 [许可证文本](third-party/ECDICT-LICENSE.txt)。原始文件摘要、筛选规则、数量及许可证也在 dist/vocabulary-source.json 和离线词库页面中提供。
+
+按上游考试标签和词频选取小写词头，排除上游明确标注的屈折词形及原词库重复项，要求中英文释义齐全。音标和词形仅展示实际存在的数据。上游标签与词频不代表官方IELTS词表、CEFR等级或分数标准。词典条目未提供经核对的例句，页面明确将英语释义与原创例句区分；不生成填空模板冒充例句。原始65.9MB CSV仅在本机私有缓存，不随源码发布。
