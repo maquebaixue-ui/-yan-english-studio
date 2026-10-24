@@ -1,6 +1,7 @@
 /* Public app shell only. Change BUILD whenever a shipped shell asset changes. */
 const BUILD = '1.3.0-20261024-1';
 const SHELL_FILES = [
+  'speech.js', 'audio/l01.wav', 'audio/l02.wav', 'audio/l03.wav', 'audio/l04.wav',
   'index.html', 'style.css', 'app.js', 'core.js', 'data.js', 'extra-data.js',
   'vocabulary-foundation.js', 'vocabulary-topics.js',
   'vocabulary-dictionary.js', 'vocabulary-source.json', 'vocabulary-shelf.js',
@@ -50,7 +51,7 @@ self.addEventListener('activate', event => {
 
 self.addEventListener('fetch', event => {
   const request = event.request;
-  if (request.method !== 'GET' || request.headers.has('range')) return;
+  if (request.method !== 'GET') return;
   const url = new URL(request.url);
   // Fragment routes identify views inside the same document. Some navigation
   // requests preserve that fragment in Request.url, while cache keys do not.
@@ -62,9 +63,19 @@ self.addEventListener('fetch', event => {
   let key = url.href;
   if (request.mode === 'navigate' && (url.href === BASE || url.href === INDEX)) key = INDEX;
   if (!ALLOWED.has(key)) return;
+  if(request.headers.has('range')&&!url.pathname.endsWith('.wav'))return;
   event.respondWith((async () => {
     const cache = await caches.open(CACHE);
-    return await cache.match(key) || fetch(request);
+    const response=await cache.match(key);
+    if(!response)return fetch(request);
+    if(!request.headers.has('range'))return response;
+    // Native mobile audio players request byte ranges, including when offline.
+    const bytes=await response.arrayBuffer(),length=bytes.byteLength;
+    const match=/^bytes=(\d*)-(\d*)$/.exec(request.headers.get('range')||'');
+    let start=match?.[1]?Number(match[1]):match?.[2]?Math.max(0,length-Number(match[2])):NaN;
+    let end=match?.[1]&&match?.[2]?Math.min(length-1,Number(match[2])):length-1;
+    if(!Number.isSafeInteger(start)||!Number.isSafeInteger(end)||start<0||start>=length||end<start)return new Response(null,{status:416,headers:{'Content-Range':`bytes */${length}`}});
+    return new Response(bytes.slice(start,end+1),{status:206,headers:{'Content-Type':'audio/wav','Content-Range':`bytes ${start}-${end}/${length}`,'Content-Length':String(end-start+1),'Accept-Ranges':'bytes'}});
   })());
 });
 

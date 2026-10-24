@@ -15,7 +15,7 @@ const hosts=new Set(['127.0.0.1','localhost',...addresses].map(host=>`${host}:${
 const chatgpt=createChatGPTService({directory:fileURLToPath(new URL('./.local/',import.meta.url)),hosts,port});
 const ai=createAiService({directory:fileURLToPath(new URL('./.local/',import.meta.url)),hosts,port,chatgpt});
 const materials=createMaterialService({directory:fileURLToPath(new URL('./.local/materials/',import.meta.url)),resources:RESOURCES,hosts});
-const types = {'.html':'text/html; charset=utf-8','.css':'text/css; charset=utf-8','.js':'text/javascript; charset=utf-8','.svg':'image/svg+xml','.png':'image/png','.webmanifest':'application/manifest+json','.json':'application/json; charset=utf-8'};
+const types = {'.html':'text/html; charset=utf-8','.css':'text/css; charset=utf-8','.js':'text/javascript; charset=utf-8','.svg':'image/svg+xml','.wav':'audio/wav','.png':'image/png','.webmanifest':'application/manifest+json','.json':'application/json; charset=utf-8'};
 const server = http.createServer(async (req,res) => {
   try {
     const pathname = decodeURIComponent(new URL(req.url,'http://localhost').pathname);

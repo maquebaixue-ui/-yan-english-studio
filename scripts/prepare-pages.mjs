@@ -8,7 +8,7 @@ const contained=(parent,child)=>{const relative=path.relative(parent,child);retu
 
 function publicPath(file){
  if(typeof file!=='string'||!file||file.startsWith('/')||file.includes('\\')||file.split('/').some(part=>!part||part==='.'||part==='..'||part.startsWith('.'))||!/^[-a-zA-Z0-9_./]+$/.test(file))throw new Error('Unsafe public path: '+file);
- if(!/\.(?:html|css|js|json|svg|png|webmanifest)$/.test(file)||/(?:^|\/)(?:api|materials|__qa[^/]*)(?:\/|$)/.test(file))throw new Error('Not a public shell asset: '+file);
+ if(!/\.(?:html|css|js|json|svg|png|wav|webmanifest)$/.test(file)||/(?:^|\/)(?:api|materials|__qa[^/]*)(?:\/|$)/.test(file))throw new Error('Not a public shell asset: '+file);
  return file;
 }
 

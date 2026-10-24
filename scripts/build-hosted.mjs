@@ -11,9 +11,9 @@ const manifestPath=path.resolve(arg('--manifest')||path.join(source,'.openai/hos
 const manifest=JSON.parse(await readFile(manifestPath,'utf8'));
 if(!manifest.project_id||!manifest.capabilities?.includes('mcp')||manifest.static)throw new Error('Hosted build requires this private Site’s worker manifest with MCP capability.');
 const built=await preparePages(source),assets={};
-const types={'.html':'text/html; charset=utf-8','.css':'text/css; charset=utf-8','.js':'text/javascript; charset=utf-8','.svg':'image/svg+xml','.png':'image/png','.webmanifest':'application/manifest+json','.json':'application/json; charset=utf-8'};
+const types={'.html':'text/html; charset=utf-8','.css':'text/css; charset=utf-8','.js':'text/javascript; charset=utf-8','.svg':'image/svg+xml','.wav':'audio/wav','.png':'image/png','.webmanifest':'application/manifest+json','.json':'application/json; charset=utf-8'};
 for(const file of [...built.files,'sw.js']){
- const bytes=await readFile(path.join(built.output,file)),binary=path.extname(file)==='.png';let content=binary?bytes.toString('base64'):bytes.toString('utf8');
+ const bytes=await readFile(path.join(built.output,file)),binary=['.png','.wav'].includes(path.extname(file));let content=binary?bytes.toString('base64'):bytes.toString('utf8');
  if(file==='index.html')content=content.replace('content="static"','content="hosted"');
  assets[file]=[types[path.extname(file)]||'application/octet-stream',content,binary];
 }

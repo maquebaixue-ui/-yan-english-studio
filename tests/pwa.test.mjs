@@ -42,6 +42,15 @@ test('installable manifest and PNG icons work under the repository subpath',asyn
  assert.match(html,/apple-touch-icon/);assert.match(html,/src="\.\/pwa.js"/);
 });
 
+test('offline native listening supports cached audio byte ranges and rejects invalid ranges',async()=>{
+ const w=worker();await w.dispatch('install');w.setOffline(true);
+ const url=new URL('audio/l01.wav',base).href;
+ const result=await w.request(url,{range:true});assert.equal(result.status,206);
+ assert.equal(result.headers.get('Content-Type'),'audio/wav');assert.match(result.headers.get('Content-Range'),/^bytes 0-10\//);
+ assert.equal((await result.arrayBuffer()).byteLength,11);
+ assert.equal(await w.request(base+'app.js',{range:true}),undefined);
+});
+
 test('precache covers every public module, CSS and icon and no private or remote data',async()=>{
  const w=worker(),files=new Set(w.files);
  for(const filename of await readdir(root)){
