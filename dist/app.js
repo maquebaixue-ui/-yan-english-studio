@@ -155,7 +155,7 @@ document.addEventListener('click',event=>{const el=event.target.closest('[data-a
 document.addEventListener('submit',event=>{
  const form=event.target;event.preventDefault();const values=Object.fromEntries(new FormData(form));
  if(vocabularyShelf.submit(form,values))return;
- if(['library-search','library-quiz','shelf-search','ai-config-form','ai-tutor','ai-pair-form','chat-form','chat-import-form'].includes(form.id)){extras.submit(form,values);return;}
+ if(['library-search','library-quiz','shelf-search','ai-config-form','ai-tutor','ai-pair-form','ai-browser-config','chat-form','chat-import-form'].includes(form.id)){extras.submit(form,values);return;}
  if(C.today()!==viewDate){viewDate=C.today();session=null;grammarSession=null;commit(()=>{});render();toast('日期已更新，请从新一天的任务继续。');return;}
  try{
  if(form.id==='spell-form')submitSpelling(values.answer);
