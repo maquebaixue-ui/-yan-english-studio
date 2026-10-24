@@ -32,3 +32,7 @@ jobs:
       - name: Deploy
         id: deployment
         uses: actions/deploy-pages@v4
+      - name: Verify public learning page
+        env:
+          YAN_PAGES_URL: ${{ steps.deployment.outputs.page_url }}
+        run: node scripts/verify-pages.mjs

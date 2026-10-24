@@ -2,11 +2,13 @@
 
 适合中文母语初学者的独立雅思学习空间。雾蓝与奶白界面，手机和电脑可用，学习记录本地保存。**无需购买服务，无第三方项目依赖；AI 可选。**
 
-[源码仓库](https://github.com/maquebaixue-ui/-yan-english-studio) · [MIT 许可证](LICENSE) · [内容来源与开源调研](SOURCES.md) · [隐私说明](PRIVACY.md) · [贡献指南](CONTRIBUTING.md)
+[打开学习网页版](https://maquebaixue-ui.github.io/-yan-english-studio/) · [源码仓库](https://github.com/maquebaixue-ui/-yan-english-studio) · [MIT 许可证](LICENSE) · [内容来源与开源调研](SOURCES.md) · [隐私说明](PRIVACY.md) · [贡献指南](CONTRIBUTING.md)
 
 ## 手机直接用：可添加到主屏幕的网页应用
 
-网页版地址：**https://maquebaixue-ui.github.io/-yan-english-studio/**。仓库所有者首次发布需先完成下方 GitHub Pages 设置；看到成功的 Pages 部署后，该地址才可用。
+**[点击打开 YAN English Studio 学习网页版](https://maquebaixue-ui.github.io/-yan-english-studio/)**
+
+网站已部署，可直接使用。体验学习功能无需创建仓库、配置 GitHub Pages 或启动电脑服务；下方部署设置仅供想自行部署的人参考。
 
 1. 用安卓 Chrome / Edge 打开网址；聊天软件内请先选择“在浏览器打开”。
 2. 打开底部「更多」，等待显示“内置内容已准备好，可离线学习”。
@@ -19,7 +21,7 @@ iPhone 可用 Safari → 分享 → 添加到主屏幕。安装选项由浏览�
 
 **迁移旧进度：** 在旧网址「数据与设置」导出 JSON，传到手机，在新网址导入。网址、浏览器或设备不同，记录不会自动同步。安装应用也不是数据备份。
 
-### 仓库所有者首次启用 GitHub Pages
+### 想自行部署：首次启用 GitHub Pages
 
 打开仓库 **Settings → Pages → Build and deployment → Source → GitHub Actions**。本项目已有 `.github/workflows/pages.yml`，无需选择模板。首次 push 的工作流若因 Pages 未启用失败，设置后到 Actions → Publish mobile web app → Re-run failed jobs。
 
@@ -47,7 +49,7 @@ npm start
 
 安卓手机与电脑连接同一个 Wi-Fi，在手机浏览器打开启动窗口显示的 **Phone on the same Wi-Fi** 地址。电脑需要保持运行，IP 以启动窗口为准。项目不会自动修改防火墙；如打不开，请检查专用网络的 Node.js 入站权限和访客网络隔离。
 
-手机底部「更多」可以进入资料库、AI 与数据设置。电脑左侧直接显示入口。GitHub 仓库链接是源码页面，不是已部署的在线学习网站。
+手机底部「更多」可以进入资料库、AI 与数据设置。电脑左侧直接显示入口。[GitHub 仓库](https://github.com/maquebaixue-ui/-yan-english-studio)用于查看源码；直接学习请打开[学习网页版](https://maquebaixue-ui.github.io/-yan-english-studio/)。
 
 ## 每天怎么学
 
