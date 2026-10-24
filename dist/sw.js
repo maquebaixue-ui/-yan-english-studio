@@ -1,7 +1,7 @@
 /* Public app shell only. Change BUILD whenever a shipped shell asset changes. */
-const BUILD = '1.3.0-20261024-1';
+const BUILD = '1.7.0-20261024-1';
 const SHELL_FILES = [
-  'speech.js', 'audio/l01.wav', 'audio/l02.wav', 'audio/l03.wav', 'audio/l04.wav',
+  'learning.js', 'learning-core.js', 'learning-state.js', 'learning-data.js', 'speech.js', 'audio/l01.wav', 'audio/l02.wav', 'audio/l03.wav', 'audio/l04.wav',
   'index.html', 'style.css', 'app.js', 'core.js', 'data.js', 'extra-data.js',
   'vocabulary-foundation.js', 'vocabulary-topics.js',
   'vocabulary-dictionary.js', 'vocabulary-source.json', 'vocabulary-shelf.js',
