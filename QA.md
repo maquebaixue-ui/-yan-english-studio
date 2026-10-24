@@ -136,3 +136,8 @@ v1.0 交付范围为本地及同一 Wi-Fi 使用；未部署公开在线站点�
 ## 1.8.0 natural voices — 2026-10-24
 
 87 tests passed with local-network test permission; 15 focused voice/speech/PWA tests also passed after final edits. All 75 MP3 files decoded successfully. Tested 390px Chromium viewport: M2/M4/M5 preview, voice switch stops previous audio, word playback, real browser-WASM example generation in all three voices, and original listening voice selection. Model/runtime inputs were served from local mirrors for the large browser test; production Hugging Face and unpkg CORS GETs returned 200. Server-off reload and cached M4 listening playback verified. No physical Android hardware test performed. Optional model download is explicit (about 400MB); synthetic recordings are clearly labelled.
+
+## 1.9.0 — 2026-10-24
+
+Final full suite: all 95 tests passed, including the HTML form named-property collision regression. Tested 390px Chromium UI: gist after actual audio play, sentence start at0.025s and automatic pause at2.543s for the first M2 sentence (end2.553s), unclear marking, explicit next-day reason scheduling, direct hidden-text retry, all8 self-confirmed shadowing steps, completion preserving the unresolved sentence, refresh persistence, scaffold fading, no premature full-answer disclosure, and self-check of an alternative translation. Real exported backup was parsed with production validator and retained all three method records. No physical Android device test or pronunciation grading performed.
+Server-off reload retained one listening completion and one self-checked output; a second listening lesson played offline. 320px and390px viewports had no horizontal overflow.
