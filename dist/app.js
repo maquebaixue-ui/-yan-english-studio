@@ -1,6 +1,8 @@
 import {createLearning} from './learning.js';
 import {hasCloze} from './learning-core.js';
-import {createSpeech,speechControls} from './speech.js';
+import {createSpeech,speechControls,stopAllSpeech} from './speech.js';
+import {chooseVoice,voicePanel,enablePack,removePack} from './voice-client.js';
+import {getVoice,listeningPath} from './voice-config.js';
 import {WORDS,GRAMMAR,CONTENT_LABEL} from './data.js';
 import * as C from './core.js';
 import {createExtras} from './extras.js';
@@ -23,7 +25,7 @@ persist();
 function showStorageWarning(){$('#storage-warning').hidden=!storageProblem;$('#storage-warning').textContent=storageProblem;}
 function toast(message){$('#toast').textContent=message;$('#toast').classList.add('visible');clearTimeout(toastTimer);toastTimer=setTimeout(()=>$('#toast').classList.remove('visible'),3400);}
 const speech=createSpeech({toast});
-function stopAudio(){speech.stop();document.querySelectorAll('audio').forEach(a=>a.pause());}
+function stopAudio(){stopAllSpeech();document.querySelectorAll('audio').forEach(a=>a.pause());}
 function route(){const value=location.hash.slice(1);return routes.some(r=>r[0]===value)?value:'today';}
 function go(name){if(route()===name)render();else location.hash=name;}
 function head(eyebrow,title,subtitle,extra=''){return `<div class="page-heading"><div><div class="eyebrow">${eyebrow}</div><h1>${title}</h1><p class="subtext">${subtitle}</p></div>${extra}</div>`;}
@@ -119,6 +121,9 @@ function previewImport(candidate,source='文件'){
 }
 function handleAction(action,el){
  if(pwaAct(action))return;
+ if(action==='voice-enable'){stopAudio();void enablePack();return;}
+ if(action==='voice-remove'){stopAudio();void removePack();return;}
+ if(action==='voice-preview'){stopAudio();const v=getVoice();speech.speak("Take your time. You don't have to get every word right today. I'm here with you. Let's try one sentence, slowly.",v==='device'?{}:{file:'./audio/voices/'+v+'-preview.mp3'});return;}
  if(learning.act(action,el))return;
  if(action==='speech-stop'){stopAudio();return;}
  if(action==='speak-word'||action==='speak-example'){const w=WORDS.find(w=>w.id===el.dataset.word);if(!w)return;const panel=el.closest('.speech-controls');document.querySelectorAll('audio').forEach(a=>a.pause());speech.speak(action==='speak-word'?w.word:w.example,{rate:Number(panel.querySelector('[data-speech-rate]').value),accent:panel.querySelector('[data-speech-accent]').value});return;}
@@ -200,3 +205,6 @@ document.addEventListener('visibilitychange',()=>{if(document.hidden)stopAudio()
 document.addEventListener('play',e=>{if(e.target.matches?.('audio[data-listening]')){speech.stop();document.querySelectorAll('audio').forEach(a=>{if(a!==e.target)a.pause();});}},true);
 document.addEventListener('change',e=>{if(e.target.matches('[data-listening-rate]'))e.target.closest('.listening-player').querySelector('audio').playbackRate=Number(e.target.value);});
 document.addEventListener('error',e=>{if(e.target.matches?.('audio[data-listening]'))e.target.closest('.listening-player').querySelector('[role=status]').textContent='音频未能加载。请联网刷新后重试，也可以使用下方设备朗读。';},true);
+
+window.addEventListener('yan-voice-change',()=>{const panel=document.querySelector('.voice-panel');if(panel){const opened=panel.querySelector('details')?.open;panel.outerHTML=voicePanel();if(opened)document.querySelector('.voice-panel details').open=true;}});
+document.addEventListener('change',e=>{if(!e.target.matches('[data-voice-choice]'))return;stopAudio();const value=e.target.value;if(!chooseVoice(value))return;document.querySelectorAll('[data-voice-choice]').forEach(el=>{el.value=value==='device'&&el.closest('.listening-player')?'M2':value;});document.querySelectorAll('audio[data-listening]').forEach(audio=>{const rate=audio.playbackRate;audio.src=listeningPath(audio.dataset.listening,value);audio.load();audio.playbackRate=rate;});});

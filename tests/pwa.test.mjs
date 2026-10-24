@@ -49,6 +49,7 @@ test('offline native listening supports cached audio byte ranges and rejects inv
  assert.equal(result.headers.get('Content-Type'),'audio/wav');assert.match(result.headers.get('Content-Range'),/^bytes 0-10\//);
  assert.equal((await result.arrayBuffer()).byteLength,11);
  assert.equal(await w.request(base+'app.js',{range:true}),undefined);
+ const mp3=await w.request(base+'audio/voices/M4-l01.mp3',{range:true});assert.equal(mp3.status,206);assert.equal(mp3.headers.get('Content-Type'),'audio/mpeg');assert.equal((await mp3.arrayBuffer()).byteLength,11);
 });
 
 test('precache covers every public module, CSS and icon and no private or remote data',async()=>{

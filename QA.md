@@ -132,3 +132,7 @@ v1.0 交付范围为本地及同一 Wi-Fi 使用；未部署公开在线站点�
 - 手机尺寸浏览器实际完成“听懂但拼错”、句型错误后遮答案重练、原创例句填空，结果分别保存。能力标签明确说明测量范围。
 - 原有20个新词及5道语法进度与专项分开；重练不重复增加每日专项完成数量。
 - 未将男声候选加入生产资源；Kokoro 两个样音被用户否决。声音进一步设计是独立试听，未冒充已接入实时 TTS 或角色原声。
+
+## 1.8.0 natural voices — 2026-10-24
+
+87 tests passed with local-network test permission; 15 focused voice/speech/PWA tests also passed after final edits. All 75 MP3 files decoded successfully. Tested 390px Chromium viewport: M2/M4/M5 preview, voice switch stops previous audio, word playback, real browser-WASM example generation in all three voices, and original listening voice selection. Model/runtime inputs were served from local mirrors for the large browser test; production Hugging Face and unpkg CORS GETs returned 200. Server-off reload and cached M4 listening playback verified. No physical Android hardware test performed. Optional model download is explicit (about 400MB); synthetic recordings are clearly labelled.

@@ -1,0 +1,412 @@
+{
+  "model": "Supertonic 3",
+  "revision": "aafc6e32416a594460b32413efc49d7fe4ce6d46",
+  "license": "OpenRAIL-M",
+  "source": "https://huggingface.co/supertone-oss-archive/supertonic-3",
+  "voices": [
+    "M2",
+    "M4",
+    "M5"
+  ],
+  "wordCount": 20,
+  "listeningCount": 4,
+  "words": {
+    "study": "w001",
+    "learn": "w002",
+    "practice": "w003",
+    "repeat": "w004",
+    "remember": "w005",
+    "forget": "w006",
+    "understand": "w007",
+    "explain": "w008",
+    "answer": "w009",
+    "question": "w010",
+    "mistake": "w011",
+    "correct": "w012",
+    "improve": "w013",
+    "progress": "w014",
+    "goal": "w015",
+    "plan": "w016",
+    "focus": "w017",
+    "review": "w018",
+    "sentence": "w019",
+    "meaning": "w020"
+  },
+  "files": [
+    {
+      "file": "M2-w001.mp3",
+      "seconds": 1.322,
+      "bytes": 8208
+    },
+    {
+      "file": "M2-w002.mp3",
+      "seconds": 1.324,
+      "bytes": 8208
+    },
+    {
+      "file": "M2-w003.mp3",
+      "seconds": 1.359,
+      "bytes": 8424
+    },
+    {
+      "file": "M2-w004.mp3",
+      "seconds": 1.332,
+      "bytes": 8424
+    },
+    {
+      "file": "M2-w005.mp3",
+      "seconds": 1.344,
+      "bytes": 8424
+    },
+    {
+      "file": "M2-w006.mp3",
+      "seconds": 1.328,
+      "bytes": 8208
+    },
+    {
+      "file": "M2-w007.mp3",
+      "seconds": 1.399,
+      "bytes": 8640
+    },
+    {
+      "file": "M2-w008.mp3",
+      "seconds": 1.349,
+      "bytes": 8424
+    },
+    {
+      "file": "M2-w009.mp3",
+      "seconds": 1.332,
+      "bytes": 8424
+    },
+    {
+      "file": "M2-w010.mp3",
+      "seconds": 1.342,
+      "bytes": 8424
+    },
+    {
+      "file": "M2-w011.mp3",
+      "seconds": 1.351,
+      "bytes": 8424
+    },
+    {
+      "file": "M2-w012.mp3",
+      "seconds": 1.334,
+      "bytes": 8424
+    },
+    {
+      "file": "M2-w013.mp3",
+      "seconds": 1.343,
+      "bytes": 8424
+    },
+    {
+      "file": "M2-w014.mp3",
+      "seconds": 1.359,
+      "bytes": 8424
+    },
+    {
+      "file": "M2-w015.mp3",
+      "seconds": 1.321,
+      "bytes": 8208
+    },
+    {
+      "file": "M2-w016.mp3",
+      "seconds": 1.322,
+      "bytes": 8208
+    },
+    {
+      "file": "M2-w017.mp3",
+      "seconds": 1.325,
+      "bytes": 8208
+    },
+    {
+      "file": "M2-w018.mp3",
+      "seconds": 1.333,
+      "bytes": 8424
+    },
+    {
+      "file": "M2-w019.mp3",
+      "seconds": 1.351,
+      "bytes": 8424
+    },
+    {
+      "file": "M2-w020.mp3",
+      "seconds": 1.338,
+      "bytes": 8424
+    },
+    {
+      "file": "M2-l01.mp3",
+      "seconds": 26.421,
+      "bytes": 158760
+    },
+    {
+      "file": "M2-l02.mp3",
+      "seconds": 26.716,
+      "bytes": 160704
+    },
+    {
+      "file": "M2-l03.mp3",
+      "seconds": 29.705,
+      "bytes": 178632
+    },
+    {
+      "file": "M2-l04.mp3",
+      "seconds": 31.369,
+      "bytes": 188568
+    },
+    {
+      "file": "M2-preview.mp3",
+      "seconds": 7.408,
+      "bytes": 44712
+    },
+    {
+      "file": "M4-w001.mp3",
+      "seconds": 1.258,
+      "bytes": 7776
+    },
+    {
+      "file": "M4-w002.mp3",
+      "seconds": 1.26,
+      "bytes": 7992
+    },
+    {
+      "file": "M4-w003.mp3",
+      "seconds": 1.308,
+      "bytes": 8208
+    },
+    {
+      "file": "M4-w004.mp3",
+      "seconds": 1.269,
+      "bytes": 7992
+    },
+    {
+      "file": "M4-w005.mp3",
+      "seconds": 1.282,
+      "bytes": 7992
+    },
+    {
+      "file": "M4-w006.mp3",
+      "seconds": 1.263,
+      "bytes": 7992
+    },
+    {
+      "file": "M4-w007.mp3",
+      "seconds": 1.348,
+      "bytes": 8424
+    },
+    {
+      "file": "M4-w008.mp3",
+      "seconds": 1.293,
+      "bytes": 7992
+    },
+    {
+      "file": "M4-w009.mp3",
+      "seconds": 1.271,
+      "bytes": 7992
+    },
+    {
+      "file": "M4-w010.mp3",
+      "seconds": 1.282,
+      "bytes": 7992
+    },
+    {
+      "file": "M4-w011.mp3",
+      "seconds": 1.297,
+      "bytes": 8208
+    },
+    {
+      "file": "M4-w012.mp3",
+      "seconds": 1.273,
+      "bytes": 7992
+    },
+    {
+      "file": "M4-w013.mp3",
+      "seconds": 1.281,
+      "bytes": 7992
+    },
+    {
+      "file": "M4-w014.mp3",
+      "seconds": 1.307,
+      "bytes": 8208
+    },
+    {
+      "file": "M4-w015.mp3",
+      "seconds": 1.257,
+      "bytes": 7776
+    },
+    {
+      "file": "M4-w016.mp3",
+      "seconds": 1.258,
+      "bytes": 7776
+    },
+    {
+      "file": "M4-w017.mp3",
+      "seconds": 1.262,
+      "bytes": 7992
+    },
+    {
+      "file": "M4-w018.mp3",
+      "seconds": 1.269,
+      "bytes": 7992
+    },
+    {
+      "file": "M4-w019.mp3",
+      "seconds": 1.297,
+      "bytes": 8208
+    },
+    {
+      "file": "M4-w020.mp3",
+      "seconds": 1.278,
+      "bytes": 7992
+    },
+    {
+      "file": "M4-l01.mp3",
+      "seconds": 25.473,
+      "bytes": 153144
+    },
+    {
+      "file": "M4-l02.mp3",
+      "seconds": 25.669,
+      "bytes": 154440
+    },
+    {
+      "file": "M4-l03.mp3",
+      "seconds": 28.477,
+      "bytes": 171288
+    },
+    {
+      "file": "M4-l04.mp3",
+      "seconds": 30.06,
+      "bytes": 180576
+    },
+    {
+      "file": "M4-preview.mp3",
+      "seconds": 7.072,
+      "bytes": 42768
+    },
+    {
+      "file": "M5-w001.mp3",
+      "seconds": 1.347,
+      "bytes": 8424
+    },
+    {
+      "file": "M5-w002.mp3",
+      "seconds": 1.349,
+      "bytes": 8424
+    },
+    {
+      "file": "M5-w003.mp3",
+      "seconds": 1.385,
+      "bytes": 8640
+    },
+    {
+      "file": "M5-w004.mp3",
+      "seconds": 1.357,
+      "bytes": 8424
+    },
+    {
+      "file": "M5-w005.mp3",
+      "seconds": 1.369,
+      "bytes": 8640
+    },
+    {
+      "file": "M5-w006.mp3",
+      "seconds": 1.353,
+      "bytes": 8424
+    },
+    {
+      "file": "M5-w007.mp3",
+      "seconds": 1.426,
+      "bytes": 8856
+    },
+    {
+      "file": "M5-w008.mp3",
+      "seconds": 1.374,
+      "bytes": 8640
+    },
+    {
+      "file": "M5-w009.mp3",
+      "seconds": 1.357,
+      "bytes": 8424
+    },
+    {
+      "file": "M5-w010.mp3",
+      "seconds": 1.367,
+      "bytes": 8424
+    },
+    {
+      "file": "M5-w011.mp3",
+      "seconds": 1.376,
+      "bytes": 8640
+    },
+    {
+      "file": "M5-w012.mp3",
+      "seconds": 1.358,
+      "bytes": 8424
+    },
+    {
+      "file": "M5-w013.mp3",
+      "seconds": 1.368,
+      "bytes": 8640
+    },
+    {
+      "file": "M5-w014.mp3",
+      "seconds": 1.385,
+      "bytes": 8640
+    },
+    {
+      "file": "M5-w015.mp3",
+      "seconds": 1.345,
+      "bytes": 8424
+    },
+    {
+      "file": "M5-w016.mp3",
+      "seconds": 1.347,
+      "bytes": 8424
+    },
+    {
+      "file": "M5-w017.mp3",
+      "seconds": 1.35,
+      "bytes": 8424
+    },
+    {
+      "file": "M5-w018.mp3",
+      "seconds": 1.358,
+      "bytes": 8424
+    },
+    {
+      "file": "M5-w019.mp3",
+      "seconds": 1.377,
+      "bytes": 8640
+    },
+    {
+      "file": "M5-w020.mp3",
+      "seconds": 1.363,
+      "bytes": 8424
+    },
+    {
+      "file": "M5-l01.mp3",
+      "seconds": 26.896,
+      "bytes": 161784
+    },
+    {
+      "file": "M5-l02.mp3",
+      "seconds": 27.212,
+      "bytes": 163512
+    },
+    {
+      "file": "M5-l03.mp3",
+      "seconds": 30.289,
+      "bytes": 182088
+    },
+    {
+      "file": "M5-l04.mp3",
+      "seconds": 31.985,
+      "bytes": 192240
+    },
+    {
+      "file": "M5-preview.mp3",
+      "seconds": 7.559,
+      "bytes": 45576
+    }
+  ]
+}
