@@ -1,3 +1,5 @@
+import {freshRecall,seedRecall,validateRecall} from './recall-state.js';
+import {pairRef} from './recall-data.js';
 import {freshMethods,validateMethods} from './methods-state.js';
 import {earRef,outputRef} from './methods-data.js';
 import {freshLearning,markDimension,validateLearning} from './learning-state.js';
@@ -14,7 +16,7 @@ export function addDays(date,n){const d=new Date(`${date}T12:00:00`);d.setDate(d
 export function daysBetween(a,b){return Math.round((new Date(`${b}T12:00:00`)-new Date(`${a}T12:00:00`))/86400000);}
 export function validDate(s){return typeof s==='string' && /^\d{4}-\d{2}-\d{2}$/.test(s) && !Number.isNaN(new Date(`${s}T12:00:00`).getTime()) && today(new Date(`${s}T12:00:00`))===s;}
 export function uid(){return globalThis.crypto?.randomUUID?.() || `id-${Date.now()}-${Math.random().toString(36).slice(2)}`;}
-export function freshState(date=today()){return {version:1,createdAt:date,settings:{targetDate:'2026-11-30',targetBand:6,nextBand:6.5},days:{},cards:{},grammar:{},mistakes:[],records:[],lastExport:null,learning:freshLearning(),methods:freshMethods()};}
+export function freshState(date=today()){return {version:1,createdAt:date,settings:{targetDate:'2026-11-30',targetBand:6,nextBand:6.5},days:{},cards:{},grammar:{},mistakes:[],records:[],lastExport:null,learning:freshLearning(),methods:freshMethods(),recall:freshRecall()};}
 export function ensureDay(s,date=today()){
  if(!s.days[date]) s.days[date]={newIds:WORDS.filter(w=>!s.cards[w.id]).slice(0,20).map(w=>w.id),reviewIds:dueIds(s,date),wordDone:[],reviewDone:[],grammarDone:[],spellingAttempts:0,activities:0};
  return s.days[date];
@@ -33,10 +35,11 @@ export function mistake(s,{category,refId=null,prompt,answer,userAnswer='',note=
 }
 export function resolveMistakes(s,category,refId,date=today()){s.mistakes.filter(m=>m.category===category&&m.refId===refId).forEach(m=>{m.resolved=true;m.lastAt=date;});}
 export function normaliseAnswer(s){return s.trim().toLowerCase().replace(/\s+/g,' ');}
+export function noteWordShown(s,id,date=today()){const r=s.recall?.words[id];if(r)r.studied=date;}
 export function recordSpelling(s,id,answer,date=today()){
  const word=WORDS.find(w=>w.id===id);if(!word)throw new Error('找不到单词');
  const correct=normaliseAnswer(answer)===word.word.toLowerCase();
- markDimension(s,id,'spell',correct,date);
+ markDimension(s,id,'spell',correct,date);noteWordShown(s,id,date);
  const day=ensureDay(s,date);day.spellingAttempts++;day.activities++;
  if(correct) resolveMistakes(s,'拼写',id,date);
  else mistake(s,{category:'拼写',refId:id,prompt:word.meaning,answer:word.word,userAnswer:answer,note:word.example?`例句：${word.example}`:`ECDICT 英语释义：${word.definition}`},date);
@@ -47,6 +50,7 @@ export function rateWord(s,id,rating,mode='new',date=today(),spellingCorrect=tru
  const day=ensureDay(s,date);
  const effective=rating==='good'&&!spellingCorrect?'fuzzy':rating;
  s.cards[id]=schedule(s.cards[id],effective,date);
+ seedRecall(s,id,date,addDays(date,1)).studied=date;
  markDimension(s,id,'recognize',rating==='good',date);
  addUnique(mode==='new'?day.wordDone:day.reviewDone,id);day.activities++;
  if(effective==='good')resolveMistakes(s,'单词',id,date);
@@ -105,10 +109,10 @@ export function validateState(input){
  for(const [key,value] of Object.entries(obj(s.days))){date(key);const d=obj(value);result.days[key]={newIds:ids(d.newIds,wordIds,20),reviewIds:ids(d.reviewIds,wordIds,WORDS.length),wordDone:ids(d.wordDone,wordIds,WORDS.length),reviewDone:ids(d.reviewDone,wordIds,WORDS.length),grammarDone:ids(d.grammarDone,grammarIds,GRAMMAR.length),spellingAttempts:num(d.spellingAttempts),activities:num(d.activities)};}
  for(const [key,value] of Object.entries(obj(s.cards))){if(!wordIds.has(key))fail();const c=obj(value);if(!['again','fuzzy','good'].includes(c.lastRating))fail();result.cards[key]={stage:num(c.stage,0,INTERVALS.length-1),due:date(c.due),lastRating:c.lastRating,reps:num(c.reps),lapses:num(c.lapses)};}
  for(const [key,value] of Object.entries(obj(s.grammar))){if(!grammarIds.has(key))fail();const g=obj(value);result.grammar[key]={attempts:num(g.attempts),correct:num(g.correct),last:date(g.last)};if(g.correct>g.attempts)fail();}
- result.mistakes=arr(s.mistakes).map(v=>{const m=obj(v);if(!CATEGORIES.includes(m.category)||typeof m.resolved!=='boolean')fail();if(m.refId!==null&&!(m.category==='语法'?(grammarIds.has(m.refId)||TRANSFORMS.some(q=>q.id===m.refId)||!!outputRef(m.refId)):m.category==='听力'&&earRef(m.refId)?true:m.category==='听力'&&String(m.refId).startsWith('listen:')?wordIds.has(m.refId.slice(7)):m.category==='单词'&&String(m.refId).startsWith('use:')?wordIds.has(m.refId.slice(4)):wordIds.has(m.refId)))fail();return {id:str(m.id,100),category:m.category,refId:m.refId,prompt:str(m.prompt),answer:str(m.answer),userAnswer:str(m.userAnswer),note:str(m.note),createdAt:date(m.createdAt),lastAt:date(m.lastAt),count:num(m.count,1),resolved:m.resolved};});
+ result.mistakes=arr(s.mistakes).map(v=>{const m=obj(v);if(!CATEGORIES.includes(m.category)||typeof m.resolved!=='boolean')fail();if(m.refId!==null&&!(m.category==='语法'?(grammarIds.has(m.refId)||TRANSFORMS.some(q=>q.id===m.refId)||!!outputRef(m.refId)):m.category==='听力'&&earRef(m.refId)?true:m.category==='听力'&&String(m.refId).startsWith('listen:')?wordIds.has(m.refId.slice(7)):m.category==='单词'&&pairRef(m.refId)?true:m.category==='单词'&&String(m.refId).startsWith('use:')?wordIds.has(m.refId.slice(4)):wordIds.has(m.refId)))fail();return {id:str(m.id,100),category:m.category,refId:m.refId,prompt:str(m.prompt),answer:str(m.answer),userAnswer:str(m.userAnswer),note:str(m.note),createdAt:date(m.createdAt),lastAt:date(m.lastAt),count:num(m.count,1),resolved:m.resolved};});
  result.records=arr(s.records).map(v=>{const r=obj(v);if(!SKILLS.includes(r.skill))fail();const raw=['听力','阅读'].includes(r.skill);if(raw){num(r.total,1,40);num(r.correct,0,r.total);}else if(r.correct!==null||r.total!==null)fail();return {id:str(r.id,100),date:date(r.date),skill:r.skill,title:str(r.title),correct:r.correct,total:r.total,feedback:str(r.feedback),nextAction:str(r.nextAction),minutes:num(r.minutes,0,1440)};});
  if(new Set(result.mistakes.map(x=>x.id)).size!==result.mistakes.length||new Set(result.records.map(x=>x.id)).size!==result.records.length)fail();
- result.lastExport=s.lastExport===null?null:date(s.lastExport);result.learning=validateLearning(s.learning,{wordIds,date,num,obj,arr,str,fail});result.methods=validateMethods(s.methods,{date,num,obj,arr,str,fail,mistakeIds:new Set(result.mistakes.map(m=>m.id))});return result;
+ result.lastExport=s.lastExport===null?null:date(s.lastExport);result.learning=validateLearning(s.learning,{wordIds,date,num,obj,arr,str,fail});result.methods=validateMethods(s.methods,{date,num,obj,arr,str,fail,mistakeIds:new Set(result.mistakes.map(m=>m.id))});result.recall=validateRecall(s.recall,{wordIds,date,num,obj,arr,fail});return result;
 }
 export function parseBackup(text){
  if(text.length>8*1024*1024)throw new Error('备份文件超过 8 MB，请检查文件。');
