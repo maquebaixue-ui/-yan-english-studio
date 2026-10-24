@@ -90,6 +90,18 @@ npm run materials
 
 「我的影音」只使用你主动选择、有权使用的文件。音视频通过浏览器临时文件地址播放，不上传、不写入学习备份；刷新网页后需重新选择文件。字幕支持最多 2 MB / 5000 句，笔记需单独导出 JSON。可用“先听一段 → 循环一句 → 看字幕 → 跟读两遍 → 记一句表达”的顺序学习。
 
+## 我的 ChatGPT：两个入口
+
+AI 学习伙伴顶部展开「连接我的 ChatGPT · 登录与 MCP」。
+
+**在 ChatGPT 里使用学习工具：** 打开该面板中的私有学习连接，在私有站点登录。旧记录先从公开网页导出，在私有站点导入。点「预览要分享的学习数据」，核对完整内容并勾选确认。安装站点的私人 MCP 插件后，可以查询词库、原创材料、已分享的进度与错题。五个工具均只读，不自动同步，不包含密钥、聊天或私人影音。可撤回分享副本。
+
+**在项目网页内使用 ChatGPT 额度：** 目前仅电脑本机版支持官方开源授权。用启动脚本打开 127.0.0.1 页面 → AI 学习伙伴 → 连接我的 ChatGPT → Continue with ChatGPT → 在官方页面自行授权 → 回到项目读取账号模型 → 选择模型。每次发送仍需勾选许可。不需要 OpenAI API key；是否可用由账号实际权限/额度决定。不会导入你原来的 ChatGPT 聊天和记忆。
+
+**手机限制：** 官方开源登录要求本机回调；GitHub Pages 独立手机网页不能完成该回调。托管网页登录/额度使用需官方接入资格，当前未开通。私有站点的身份登录不代表可使用 ChatGPT 生成；手机可以使用 MCP，网页内聊天继续用已有 API。电脑本机授权后也可通过同一电脑配对使用，电脑需运行。
+
+实现和边界见 [ChatGPT 与 MCP 接入说明](CHATGPT-MCP.md)、[隐私说明](PRIVACY.md)。官方说明：[开源登录](https://developers.openai.com/siwc/token-sharing-open-source/sign-in)、[模型与生成](https://developers.openai.com/siwc/token-sharing-open-source/models-and-inference)、[网站登录试点](https://developers.openai.com/siwc/website)、[MCP 连接](https://developers.openai.com/plugins/deploy/connect-chatgpt)。
+
 ## 手机直连已有 API
 
 1. 手机打开学习网页 → 更多 → AI 学习伙伴 → 顶部「手机 API 连接」。

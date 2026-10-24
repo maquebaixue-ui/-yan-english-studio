@@ -16,3 +16,5 @@ YAN-preserved-data-*.json
 *.key
 dist/__qa.html
 .pages/
+
+.hosted-output/

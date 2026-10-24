@@ -4,7 +4,7 @@ const SHELL_FILES = [
   'index.html', 'style.css', 'app.js', 'core.js', 'data.js', 'extra-data.js',
   'vocabulary-foundation.js', 'vocabulary-topics.js',
   'vocabulary-dictionary.js', 'vocabulary-source.json', 'vocabulary-shelf.js',
-  'extras.js', 'browser-ai.js', 'ai-prompts.js', 'library-data.js', 'resources-data.js', 'shelf.js', 'companion.js',
+  'extras.js', 'browser-ai.js', 'ai-prompts.js', 'connections.js', 'connection-info.js', 'library-data.js', 'resources-data.js', 'shelf.js', 'companion.js',
   'media.js', 'pwa.js', 'runtime.js', 'icon.svg', 'manifest.webmanifest',
   'icons/icon-192.png', 'icons/icon-512.png', 'icons/icon-maskable-512.png',
   'icons/apple-touch-icon.png'

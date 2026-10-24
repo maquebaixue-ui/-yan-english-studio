@@ -155,7 +155,7 @@ document.addEventListener('click',event=>{const el=event.target.closest('[data-a
 document.addEventListener('submit',event=>{
  const form=event.target;event.preventDefault();const values=Object.fromEntries(new FormData(form));
  if(vocabularyShelf.submit(form,values))return;
- if(['library-search','library-quiz','shelf-search','ai-config-form','ai-tutor','ai-pair-form','ai-browser-config','chat-form','chat-import-form'].includes(form.id)){extras.submit(form,values);return;}
+ if(['library-search','library-quiz','shelf-search','ai-config-form','ai-tutor','ai-pair-form','ai-browser-config','chatgpt-signin-form','chatgpt-model-form','chat-form','chat-import-form'].includes(form.id)){extras.submit(form,values);return;}
  if(C.today()!==viewDate){viewDate=C.today();session=null;grammarSession=null;commit(()=>{});render();toast('日期已更新，请从新一天的任务继续。');return;}
  try{
  if(form.id==='spell-form')submitSpelling(values.answer);
@@ -177,7 +177,7 @@ window.addEventListener('hashchange',()=>{extras.leave();render();window.scrollT
 window.addEventListener('storage',event=>{if(event.key===C.STORAGE_KEY&&event.newValue){try{state=C.validateState(JSON.parse(event.newValue));session=null;grammarSession=null;render();toast('已更新同一浏览器中另一窗口的学习进度。');}catch{toast('另一窗口的数据无法读取，请检查备份。');}}});
 document.addEventListener('visibilitychange',()=>{if(!document.hidden&&viewDate!==C.today()){viewDate=C.today();session=null;grammarSession=null;commit(()=>{});render();toast('今天的新任务准备好了。');}});
 $('#dialog').addEventListener('click',e=>{if(e.target===$('#dialog')){const r=e.target.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)closeDialog();}});
-const extras=createExtras({esc,head,button,icon,commit,toast,go,render,route,download});
+const extras=createExtras({esc,head,button,icon,commit,toast,go,render,route,download,getState:()=>state});
 const vocabularyShelf=createVocabularyShelf({esc,button,render,open:id=>{if(WORDS.some(w=>w.id===id))startWords('explore',id);}});
 window.addEventListener('yan-pwa-change',()=>{const panel=$('.pwa-panel');if(panel)panel.outerHTML=pwaPanel();});
 document.addEventListener('input',extras.input);

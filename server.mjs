@@ -5,18 +5,21 @@ import {fileURLToPath} from 'node:url';
 import {spawn} from 'node:child_process';
 import {networkInterfaces} from 'node:os';
 import {createAiService} from './lib/ai.mjs';
+import {createChatGPTService} from './lib/chatgpt.mjs';
 import {createMaterialService} from './lib/materials.mjs';
 import {RESOURCES} from './dist/resources-data.js';
 const root = path.resolve(fileURLToPath(new URL('./dist/', import.meta.url)));
 const port = Number(process.env.PORT || 4173);
 const addresses=Object.values(networkInterfaces()).flat().filter(Boolean).map(x=>x.address);
 const hosts=new Set(['127.0.0.1','localhost',...addresses].map(host=>`${host}:${port}`));
-const ai=createAiService({directory:fileURLToPath(new URL('./.local/',import.meta.url)),hosts,port});
+const chatgpt=createChatGPTService({directory:fileURLToPath(new URL('./.local/',import.meta.url)),hosts,port});
+const ai=createAiService({directory:fileURLToPath(new URL('./.local/',import.meta.url)),hosts,port,chatgpt});
 const materials=createMaterialService({directory:fileURLToPath(new URL('./.local/materials/',import.meta.url)),resources:RESOURCES,hosts});
 const types = {'.html':'text/html; charset=utf-8','.css':'text/css; charset=utf-8','.js':'text/javascript; charset=utf-8','.svg':'image/svg+xml','.png':'image/png','.webmanifest':'application/manifest+json','.json':'application/json; charset=utf-8'};
 const server = http.createServer(async (req,res) => {
   try {
     const pathname = decodeURIComponent(new URL(req.url,'http://localhost').pathname);
+    if(await chatgpt.handle(req,res,pathname))return;
     if(await materials(req,res,pathname))return;
     if(pathname.startsWith('/api/'))return await ai(req,res,pathname);
     if(!['GET','HEAD'].includes(req.method)){res.writeHead(405).end();return;}

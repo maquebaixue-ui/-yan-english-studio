@@ -33,3 +33,5 @@ body{min-width:0}.stats{grid-template-columns:repeat(4,minmax(0,1fr))}.stat{min-
 
 /* Phone API setup stays above conversation and never widens the viewport. */
 .browser-api-settings{margin-bottom:22px}.browser-api-settings summary{cursor:pointer;font-weight:650;line-height:1.7}.browser-api-settings form{margin-top:20px}.browser-api-settings details{margin-top:16px}.browser-api-settings code{overflow-wrap:anywhere}.ai-layout:has(>aside[hidden]){grid-template-columns:minmax(0,1fr)}.browser-api-settings .field small{line-height:1.7;color:var(--muted)}
+
+.connections-panel{margin-bottom:22px}.connections-panel>summary{cursor:pointer;font-weight:650}.connection-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:25px;margin-top:20px}.connection-grid>section{min-width:0}.connection-grid h2{font-size:19px}.connection-grid .actions{margin:16px 0}.connection-preview{max-height:260px;overflow:auto;white-space:pre-wrap;overflow-wrap:anywhere;font-size:12px}.connections-panel[open]{scroll-margin-top:90px}@media(max-width:760px){.connection-grid{grid-template-columns:minmax(0,1fr)}}

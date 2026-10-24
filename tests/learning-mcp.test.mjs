@@ -1,0 +1,30 @@
+import {test} from 'node:test';
+import assert from 'node:assert/strict';
+import {WORDS} from '../dist/data.js';
+import {LIBRARY} from '../dist/library-data.js';
+import {freshState,ensureDay,mistake} from '../dist/core.js';
+import {buildLearningSnapshot} from '../dist/connections.js';
+import {createLearningMcp,validateSharedSnapshot,LEARNING_TOOLS} from '../lib/learning-mcp.mjs';
+const call=(name,args={})=>({jsonrpc:'2.0',id:1,method:'tools/call',params:{name,arguments:args}});
+const content=r=>JSON.parse(r.result.content[0].text);
+test('MCP advertises only read-only tools and returns real vocabulary/materials without executing supplied content',async()=>{
+ const rpc=createLearningMcp({words:WORDS,materials:LIBRARY});assert.equal((await rpc({jsonrpc:'2.0',id:1,method:'server/discover'})).result.supportedVersions[0],'2026-07-28');
+ const tools=(await rpc({jsonrpc:'2.0',id:1,method:'tools/list'})).result.tools;assert.equal(tools.length,5);assert.ok(tools.every(x=>x.annotations.readOnlyHint&&!x.annotations.destructiveHint));
+ assert.ok(content(await rpc(call('search_vocabulary',{query:'suggestion'}))).items.some(x=>x.word==='suggestion'));
+ assert.equal(content(await rpc(call('get_learning_material',{id:'r01'}))).material.id,'r01');
+ assert.equal((await rpc(call('run_shell',{cmd:'anything'}))).result.isError,true);
+ assert.equal((await rpc(call('search_vocabulary',{query:'a',url:'https://evil.test'}))).result.isError,true);
+ assert.equal((await rpc(call('search_vocabulary',{query:'a',limit:999}))).result.isError,true);
+ assert.equal((await rpc({jsonrpc:'2.0',id:2,method:'unknown'})).error.code,-32601);
+});
+test('private snapshots require caller identity, are isolated by owner, and omit credentials/chats and raw storage',async()=>{
+ const state=freshState();ensureDay(state);mistake(state,{category:'语法',prompt:'She did not went.',answer:'She did not go.',userAnswer:'went',note:'Use the base verb.'});state.apiKey='do-not-share';state.chatHistory=['private-chat'];
+ const snapshot=validateSharedSnapshot({...buildLearningSnapshot(state),apiKey:'do-not-share',chatHistory:['private-chat']});assert.equal(JSON.stringify(snapshot).includes('do-not-share'),false);assert.equal(JSON.stringify(snapshot).includes('private-chat'),false);
+ const seen=[],rpc=createLearningMcp({words:WORDS,materials:LIBRARY,readSnapshot:async id=>{seen.push(id);return id==='owner-a'?snapshot:null;}});
+ assert.equal((await rpc(call('get_shared_study_progress'))).result.isError,true);assert.equal(seen.length,0);
+ assert.equal(content(await rpc(call('get_shared_study_progress'), 'owner-b')).shared,false);
+ assert.equal(content(await rpc(call('get_shared_mistakes',{category:'语法'}),'owner-a')).items.length,1);
+ assert.deepEqual(seen,['owner-b','owner-a']);
+ assert.throws(()=>validateSharedSnapshot({...snapshot,date:'2026-02-30'}));assert.throws(()=>validateSharedSnapshot({...snapshot,summary:{...snapshot.summary,learnedWords:-1}}));
+ assert.ok(LEARNING_TOOLS.every(x=>x.inputSchema.additionalProperties===false));
+});
