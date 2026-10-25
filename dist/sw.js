@@ -1,6 +1,7 @@
 /* Public app shell only. Change BUILD whenever a shipped shell asset changes. */
-const BUILD = '1.10.0-20261024-2';
+const BUILD = '1.11.0-20261025-1';
 const SHELL_FILES = [
+  'companion-options.js',
   'recall.js', 'recall-core.js', 'recall-state.js', 'recall-data.js',
   'methods.js', 'methods-core.js', 'methods-state.js', 'methods-data.js', 'methods-timing.js',
   'voice-config.js', 'voice-client.js', 'voice-worker.js', 'audio/voices/source.json', 'audio/voices/model-license.txt', 'audio/voices/code-license.txt',
