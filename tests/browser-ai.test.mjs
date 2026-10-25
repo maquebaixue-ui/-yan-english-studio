@@ -56,8 +56,18 @@ test('cancellation releases the request lock and connection changes are blocked 
 
 test('public AI page exposes phone configuration without a running local server',()=>{
  const extras=createExtras({esc:v=>String(v??'').replaceAll('<','&lt;'),head:(a,b,c)=>`<h1>${b}</h1><p>${c}</p>`,button:(label,action)=>`<button data-action="${action}">${label}</button>`,icon:()=>'',commit:()=>{},toast:()=>{},go:()=>{},render:()=>{},route:()=> 'ai',download:()=>{}});
- const html=extras.aiPage();assert.match(html,/手机 API 连接/);assert.match(html,/id="ai-browser-config"/);assert.match(html,/id="browser-api-key"[^>]+type="password"/);assert.match(html,/无需电脑开机/);assert.match(html,/id="chat-form"/);assert.match(html,/CORS/);
+ const html=extras.aiPage();assert.match(html,/手机 API 连接/);assert.match(html,/id="ai-browser-config"/);assert.match(html,/id="browser-api-key"[^>]+type="password"/);assert.match(html,/无需电脑开机/);assert.doesNotMatch(html,/id="chat-form"/);assert.match(html,/id="ai-tutor"/);assert.match(html,/href="#companion"/);assert.match(html,/CORS/);
  assert.equal(html.includes(sample.apiKey),false);
- assert.match(html,/请先在顶部“手机 API 连接”填写设置/);
+ const chat=extras.companionPage();assert.match(chat,/id="chat-form"/);assert.doesNotMatch(chat,/id="ai-tutor"|id="ai-browser-config"/);assert.match(chat,/href="#ai"/);assert.match(chat,/连接设置/);
  assert.equal(html.includes('会发送到 ，'),false);
+});
+
+test('separate companion and tutor pages share configuration, retain distinct drafts and render only the active page',async t=>{
+ const previousDocument=globalThis.document;globalThis.document={querySelector:()=>null,querySelectorAll:()=>[]};t.after(()=>{if(previousDocument===undefined)delete globalThis.document;else globalThis.document=previousDocument;});
+ const previousStorage=Object.getOwnPropertyDescriptor(globalThis,'localStorage'),previousFetch=globalThis.fetch;const storage=new Map();Object.defineProperty(globalThis,'localStorage',{configurable:true,value:{getItem:k=>storage.get(k)||null,setItem:(k,v)=>storage.set(k,v),removeItem:k=>storage.delete(k)}});let finish,called=0;globalThis.fetch=async()=>{called++;return new Promise(r=>finish=()=>r(Response.json({choices:[{message:{content:'仅用于测试的回复'}}]})));};t.after(()=>{globalThis.fetch=previousFetch;previousStorage?Object.defineProperty(globalThis,'localStorage',previousStorage):delete globalThis.localStorage;});
+ let active='companion';const renders=[];const extras=createExtras({esc:v=>String(v??'').replaceAll('<','&lt;'),head:(a,b,c)=>`<h1>${b}</h1><p>${c}</p>`,button:(label,action)=>`<button data-action="${action}">${label}</button>`,icon:()=>'',commit:()=>{},toast:()=>{},go:r=>active=r,render:()=>renders.push(active),route:()=>active,download:()=>{}});
+ await extras.submit({id:'ai-browser-config'},{...sample});assert.match(extras.companionPage(),/当前模型：my-model/);assert.equal(called,0);assert.doesNotMatch(extras.companionPage(),/test-only-not-a-real-key/);
+ const change=(id,value,checked=false)=>extras.input({type:'input',target:{id,value,checked,closest:()=>null}});change('chat-tone','quiet');change('chat-remote','',true);const pending=extras.submit({id:'chat-form'},{text:'第一轮对话'});assert.equal(called,1);active='ai';extras.leave();const count=renders.length;assert.match(extras.aiPage(),/id="ai-tutor"/);assert.doesNotMatch(extras.aiPage(),/id="chat-form"/);change('ai-text','辅导草稿');finish();await pending;assert.equal(renders.length,count,'background companion reply must not replace the tutor form');
+ active='companion';const chat=extras.companionPage();assert.match(chat,/仅用于测试的回复/);assert.match(chat,/value="quiet" selected/);assert.doesNotMatch(chat,/辅导草稿/);change('chat-text','聊天草稿');active='ai';extras.leave();assert.match(extras.aiPage(),/辅导草稿/);active='companion';assert.match(extras.companionPage(),/聊天草稿/);assert.equal(called,1);
+ extras.askMistake({prompt:'题干',userAnswer:'答案',answer:'参考',note:'解释'});assert.equal(active,'ai');assert.match(extras.aiPage(),/题干/);assert.doesNotMatch(extras.companionPage(),/题干/);
 });

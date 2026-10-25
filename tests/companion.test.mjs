@@ -140,3 +140,7 @@ test('browser adapter transmits the selected game instructions to the configured
  const {createBrowserAI}=await import('../dist/browser-ai.js');let sent;const ai=createBrowserAI({storage:()=>({getItem(){return null;},removeItem(){}}),fetcher:async(url,options)=>{sent=JSON.parse(options.body);return Response.json({choices:[{message:{content:'A fixture clue'}}]});}});
  ai.save({baseUrl:'https://api.example.test/v1',apiKey:'test-only-key',model:'test-model'});await ai.request({task:'companion',text:'来猜词',history:[],allowRemote:true,companionMode:'game',companionTone:'playful'});assert.match(sent.messages[0].content,/keep the answer hidden/);assert.match(sent.messages[0].content,/kind wit/);assert.equal(sent.messages.at(-1).content,'来猜词');
 });
+
+test('leaving the companion preserves draft and conversation but clears send consent',async t=>{
+ const {companion,calls}=harness(t,{status:{provider:'compatible',baseUrl:'https://example.test/v1'}});await companion.input({target:{id:'chat-remote',checked:true}});await companion.submit({id:'chat-form'},{text:'第一轮'});await companion.input({target:{id:'chat-text',value:'还没发完的下一句'}});await companion.input({target:{id:'chat-remote',checked:true}});companion.leave();assert.match(companion.page(),/第一轮/);assert.match(companion.page(),/还没发完的下一句/);await companion.submit({id:'chat-form'},{text:'还没发完的下一句'});assert.equal(calls.length,1);assert.match(companion.page(),/请先允许/);
+});

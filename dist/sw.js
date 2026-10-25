@@ -1,5 +1,5 @@
 /* Public app shell only. Change BUILD whenever a shipped shell asset changes. */
-const BUILD = '1.11.0-20261025-1';
+const BUILD = '1.12.0-20261025-1';
 const SHELL_FILES = [
   'companion-options.js',
   'recall.js', 'recall-core.js', 'recall-state.js', 'recall-data.js',
