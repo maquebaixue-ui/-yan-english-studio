@@ -2,7 +2,7 @@ import {WORDS} from './data.js';
 import {WORLD_LIMIT,worldId,cleanWorldCard} from './world-core.js';
 export const freshWorld=()=>({words:[],collection:[]});
 export const wordsFor=s=>s?.world?.words?.length?[...WORDS,...s.world.words]:WORDS;
-export const worldWord=(card,id)=>({id,word:card.word,phonetic:card.ipa,meaning:card.meaning,example:card.example,translation:card.translation,source:'world',topic:'身边的英语',level:'探索词',expression:card.expression,expressionTranslation:card.expressionTranslation});
+export const worldWord=(card,id)=>({id,word:card.word,phonetic:card.ipa,meaning:card.meaning,example:card.example,translation:card.translation,source:'world',topic:'身边的英语',level:'探索词',expression:card.expression,expressionTranslation:card.expressionTranslation,...(card.origin==='local'?{origin:'local'}:{})});
 export function collectWorld(s,raw,scene,date){
  const card=cleanWorldCard(raw),world=s.world??=freshWorld(),existing=WORDS.find(w=>w.word.toLowerCase()===card.word),id=existing?.id||worldId(card.word);
  if(world.collection.some(x=>x.id===id))return {id,added:false};

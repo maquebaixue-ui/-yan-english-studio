@@ -6,7 +6,7 @@ export function findVocabulary(query='',bank='all',words=WORDS){
  return q?filtered.sort((a,b)=>Number(b.word===q)-Number(a.word===q)||Number(b.word.startsWith(q))-Number(a.word.startsWith(q))):filtered;
 }
 export function wordDetails(word,esc){
- if(word.example)return `${word.source==='world'?'<p class="caption">看见英语 · AI 生成场景词卡，请核对。</p>':''}<div class="example"><div class="en" lang="en">${esc(word.example)}</div><div class="zh">${esc(word.translation)}</div></div>`;
+ if(word.example)return `${word.source==='world'?'<p class="caption">看见英语 · '+(word.origin==='local'?'本地检测与模板学习卡':'AI 生成场景词卡')+'，请核对。</p>':''}<div class="example"><div class="en" lang="en">${esc(word.example)}</div><div class="zh">${esc(word.translation)}</div></div>`;
  const labels={p:'过去式',d:'过去分词',i:'现在分词','3':'第三人称单数',s:'复数',r:'比较级',t:'最高级'};
  const forms=String(word.forms||'').split('/').map(part=>{const [type,value]=part.split(':');return labels[type]&&value?`${labels[type]} ${value}`:'';}).filter(Boolean);
  return `<div class="example"><span class="pill">ECDICT 词典释义</span><div class="en dictionary-definition" lang="en">${esc(word.definition)}</div>${forms.length?`<p class="caption">${esc(forms.join(' · '))}</p>`:''}<p class="caption">此扩展条目暂无核验例句。上方为英语释义，不能当作例句背诵。</p></div>`;

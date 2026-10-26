@@ -1,6 +1,9 @@
 /* Public app shell only. Change BUILD whenever a shipped shell asset changes. */
-const BUILD = '1.13.0-20261026-1';
+const BUILD = '1.14.0-20261026-1';
 const SHELL_FILES = [
+  'world-local.js', 'world-local-worker.js', 'world-local-data.js',
+  'vendor/world/tf.min.js', 'vendor/world/coco-ssd.min.js', 'vendor/world/tf-license.txt', 'vendor/world/coco-license.txt', 'vendor/world/source.json',
+  'models/world/model.json', 'models/world/quantized-1.bin', 'models/world/quantized-2.bin', 'models/world/quantized-3.bin', 'models/world/quantized-4.bin', 'models/world/quantized-5.bin',
   'world.js', 'world-core.js', 'world-state.js',
   'companion-options.js',
   'recall.js', 'recall-core.js', 'recall-state.js', 'recall-data.js',

@@ -51,3 +51,7 @@ PWA实现参考 [MDN安装指南](https://developer.mozilla.org/en-US/docs/Web/P
 新增4,964个独立词条，与原有1,036词合计6,000词。数据来自 [ECDICT固定提交](https://github.com/skywind3000/ECDICT/tree/bc015ed2e24a7abef49fc6dbbb7fe32c1dadaf8b)，按仓库MIT许可证使用，保留完整 [许可证文本](third-party/ECDICT-LICENSE.txt)。原始文件摘要、筛选规则、数量及许可证也在 dist/vocabulary-source.json 和离线词库页面中提供。
 
 按上游考试标签和词频选取小写词头，排除上游明确标注的屈折词形及原词库重复项，要求中英文释义齐全。音标和词形仅展示实际存在的数据。上游标签与词频不代表官方IELTS词表、CEFR等级或分数标准。词典条目未提供经核对的例句，页面明确将英语释义与原创例句区分；不生成填空模板冒充例句。原始65.9MB CSV仅在本机私有缓存，不随源码发布。
+
+## 本地物品检测
+
+TensorFlow.js 4.22.0 与 COCO-SSD 2.2.3（Google / TensorFlow，Apache-2.0）。官方源码 https://github.com/tensorflow/tfjs-models/tree/master/coco-ssd ，原始权重 https://storage.googleapis.com/tfjs-models/savedmodel/ssdlite_mobilenet_v2/model.json 。本项目采用每张量uint8量化权重，保留整数常量，附来源、原始/派生哈希与完整许可证于 dist/vendor/world/。本地学习模板为原创内容。官方演示照片仅存忽略的qa/用于识别测试，不作为学习资源发布。

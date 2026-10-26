@@ -11,7 +11,7 @@ export function worldId(term){return 'world:'+encodeURIComponent(worldTerm(term)
 const worldText=(v,max,optional=false)=>{if(optional&&(v===undefined||v===null))return '';if(typeof v!=='string'||v.length>max||!optional&&!v.trim()||/[\u0000-\u0008\u000b\u000c\u000e-\u001f]/.test(v))throw new Error('识别卡片内容不完整，请重试。');return v.trim();};
 export function cleanWorldCard(raw){
  if(!raw||typeof raw!=='object'||Array.isArray(raw))throw new Error('识别卡片格式无效。');
- return {word:worldTerm(raw.word),ipa:worldText(raw.ipa,100,true),meaning:worldText(raw.meaning,200),example:worldText(raw.example,350),translation:worldText(raw.translation,350),expression:worldText(raw.expression,350),expressionTranslation:worldText(raw.expressionTranslation,350)};
+ return {word:worldTerm(raw.word),ipa:worldText(raw.ipa,100,true),meaning:worldText(raw.meaning,200),example:worldText(raw.example,350),translation:worldText(raw.translation,350),expression:worldText(raw.expression,350),expressionTranslation:worldText(raw.expressionTranslation,350),...(raw.origin==='local'?{origin:'local'}:{})};
 }
 export function parseWorldResult(raw){
  if(typeof raw==='string'){if(raw.length>24000)throw new Error('识别结果过大，请换一个简单场景。');try{raw=JSON.parse(raw.trim().replace(/^```(?:json)?\s*/,'').replace(/\s*```$/,''));}catch{throw new Error('模型没有返回可用的识别卡片，请重试或更换视觉模型。');}}

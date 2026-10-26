@@ -1,0 +1,126 @@
+{
+  "model": "COCO-SSD lite_mobilenet_v2",
+  "tfjs": "4.22.0",
+  "cocoSsd": "2.2.3",
+  "license": "Apache-2.0",
+  "upstream": "https://github.com/tensorflow/tfjs-models/tree/master/coco-ssd",
+  "note": "COCO-SSD float32 weights quantized per tensor to TFJS uint8 (min + scale * q); int32 constants preserved. Learning cards use local templates. See scripts/quantize-world-model.py.",
+  "files": [
+    {
+      "file": "vendor/world/tf.min.js",
+      "url": "https://unpkg.com/@tensorflow/tfjs@4.22.0/dist/tf.min.js",
+      "bytes": 1469843,
+      "sha256": "300dfae273d20b4046f46a06d735688f03675a807561e9bcb5f664eb2f3d2831"
+    },
+    {
+      "file": "vendor/world/coco-ssd.min.js",
+      "url": "https://unpkg.com/@tensorflow-models/coco-ssd@2.2.3/dist/coco-ssd.min.js",
+      "bytes": 9299,
+      "sha256": "8875b8c1bb57723990c9d6506226e0e51cd21b8b6943eb53201086096de52df5"
+    },
+    {
+      "file": "vendor/world/tf-license.txt",
+      "url": "https://raw.githubusercontent.com/tensorflow/tfjs/master/LICENSE",
+      "bytes": 11358,
+      "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+    },
+    {
+      "file": "vendor/world/coco-license.txt",
+      "url": "https://raw.githubusercontent.com/tensorflow/tfjs-models/master/LICENSE",
+      "bytes": 11357,
+      "sha256": "58d1e17ffe5109a7ae296caafcadfdbe6a7d176f0bc4ab01e12a689b0499d8bd"
+    },
+    {
+      "file": "models/world/model.json",
+      "bytes": 263791,
+      "sha256": "0e2f51aa2abe4f98696d0251e4c8d95d5e6381466db5acb0bb331472b945be3b"
+    },
+    {
+      "file": "models/world/quantized-1.bin",
+      "bytes": 1048576,
+      "sha256": "cc5a217d370db9e327b68db5ba67a06577f72c2410028dccdf9fb4436fd4195a"
+    },
+    {
+      "file": "models/world/quantized-2.bin",
+      "bytes": 1048576,
+      "sha256": "09b4a00c23aebbcd671452c40598718a1e8580a7e550939e34b5ac1a0f3a378b"
+    },
+    {
+      "file": "models/world/quantized-3.bin",
+      "bytes": 1048576,
+      "sha256": "c125e61401e8b3401f85d68285b27e48ead9615332816f58393e7e377049843f"
+    },
+    {
+      "file": "models/world/quantized-4.bin",
+      "bytes": 1048576,
+      "sha256": "22d8f1f98de0eb35cf54a0b9d687a9b7587d33c79c0616ee2cdfd3afbdeabcee"
+    },
+    {
+      "file": "models/world/quantized-5.bin",
+      "bytes": 314424,
+      "sha256": "6aae7caf3a103bf541f5086d6ff36c42c1c4dcbebe639bacf3f1af99ecbbd84e"
+    }
+  ],
+  "originalFiles": [
+    {
+      "file": "vendor/world/tf.min.js",
+      "url": "https://unpkg.com/@tensorflow/tfjs@4.22.0/dist/tf.min.js",
+      "bytes": 1469843,
+      "sha256": "300dfae273d20b4046f46a06d735688f03675a807561e9bcb5f664eb2f3d2831"
+    },
+    {
+      "file": "vendor/world/coco-ssd.min.js",
+      "url": "https://unpkg.com/@tensorflow-models/coco-ssd@2.2.3/dist/coco-ssd.min.js",
+      "bytes": 9299,
+      "sha256": "8875b8c1bb57723990c9d6506226e0e51cd21b8b6943eb53201086096de52df5"
+    },
+    {
+      "file": "vendor/world/tf-license.txt",
+      "url": "https://raw.githubusercontent.com/tensorflow/tfjs/master/LICENSE",
+      "bytes": 11358,
+      "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+    },
+    {
+      "file": "vendor/world/coco-license.txt",
+      "url": "https://raw.githubusercontent.com/tensorflow/tfjs-models/master/LICENSE",
+      "bytes": 11357,
+      "sha256": "58d1e17ffe5109a7ae296caafcadfdbe6a7d176f0bc4ab01e12a689b0499d8bd"
+    },
+    {
+      "file": "models/world/model.json",
+      "url": "https://storage.googleapis.com/tfjs-models/savedmodel/ssdlite_mobilenet_v2/model.json",
+      "bytes": 242985,
+      "sha256": "c2b578d8893483d69b7ad27dce67f4f85e5ca835f31c6a29b208c107947e3f13"
+    },
+    {
+      "file": "models/world/group1-shard1of5.bin",
+      "url": "https://storage.googleapis.com/tfjs-models/savedmodel/ssdlite_mobilenet_v2/group1-shard1of5",
+      "bytes": 4194304,
+      "sha256": "0e7af0f713e98521252321f7f84892c31cefccccec3ac64c84e5065b75ed5646"
+    },
+    {
+      "file": "models/world/group1-shard2of5.bin",
+      "url": "https://storage.googleapis.com/tfjs-models/savedmodel/ssdlite_mobilenet_v2/group1-shard2of5",
+      "bytes": 4194304,
+      "sha256": "74cc6cfc2c4510c9cd81b8ad4cebf6f6a8f305119bb365ce0eb96276da38519a"
+    },
+    {
+      "file": "models/world/group1-shard3of5.bin",
+      "url": "https://storage.googleapis.com/tfjs-models/savedmodel/ssdlite_mobilenet_v2/group1-shard3of5",
+      "bytes": 4194304,
+      "sha256": "50383033f893eae136392a403e8f70ade5efd90867df5695c4ca5ac640e14f38"
+    },
+    {
+      "file": "models/world/group1-shard4of5.bin",
+      "url": "https://storage.googleapis.com/tfjs-models/savedmodel/ssdlite_mobilenet_v2/group1-shard4of5",
+      "bytes": 4194304,
+      "sha256": "d856dc534c780068bbf6c666ce1516df2c8433d87578aa31fcdf197de7058cc2"
+    },
+    {
+      "file": "models/world/group1-shard5of5.bin",
+      "url": "https://storage.googleapis.com/tfjs-models/savedmodel/ssdlite_mobilenet_v2/group1-shard5of5",
+      "bytes": 1257312,
+      "sha256": "3d356f1fb6dfca6af78c56db34d9326706d0196e303f9de6b04f236ca79ed309"
+    }
+  ]
+}
