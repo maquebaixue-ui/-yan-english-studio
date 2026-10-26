@@ -17,10 +17,10 @@ export function createLearning({esc,head,button,icon,getState,commit,render,go,t
  }
  function view(){
   if(session?.date!==date())session=null;
-  if(!session)return head('SMALL PRACTICE, REAL PROGRESS','让认识的，慢慢变成会用的','听一听、写一写，再把单词放回句子。原创练习 · 非雅思真题。')+dashboard()+`<div class="mode-grid">${[['dictation','听写与辨义','先辨认声音的意思，再检查拼写。两项分别记录。'],['transform','句型变换','24 道原创短练习，集中练习时态、否定句和疑问句。'],['use','例句应用','根据中文和上下文填词，让单词回到句子里。']].map(([mode,title,text])=>`<section class="panel glass"><h2>${title}</h2><p>${text}</p>${button('开始练习','learn-start',`data-mode="${mode}"`)} ${button('再练今日整组','learn-repeat',`data-mode="${mode}"`,'text-btn')}</section>`).join('')}</div><section class="panel glass"><h2>今天学过的词，各自走到哪一步？</h2><p class="caption">“未练”是真实的空白，不会根据旧背词记录虚构听力或应用成绩。</p>${[...new Set([...(getState().days[date()]?.wordDone||[]),...Object.keys(getState().learning?.words||{})])].slice(0,12).map(id=>`<div class="dimension-row"><strong lang="en">${esc(WORDS.find(w=>w.id===id).word)}</strong>${wordStatus(id)}</div>`).join('')||'<p>完成一次背词、听写或例句练习，这里就会留下记录。</p>'}</section>`;
+  if(!session)return head('SMALL PRACTICE, REAL PROGRESS','让认识的，慢慢变成会用的','听一听、写一写，再把单词放回句子。原创练习 · 非雅思真题。')+dashboard()+`<div class="mode-grid">${[['dictation','听写与辨义','先辨认声音的意思，再检查拼写。两项分别记录。'],['transform','句型变换','24 道原创短练习，集中练习时态、否定句和疑问句。'],['use','例句应用','根据中文和上下文填词，让单词回到句子里。']].map(([mode,title,text])=>`<section class="panel glass"><h2>${title}</h2><p>${text}</p>${button('开始练习','learn-start',`data-mode="${mode}"`)} ${button('再练今日整组','learn-repeat',`data-mode="${mode}"`,'text-btn')}</section>`).join('')}</div><section class="panel glass"><h2>今天学过的词，各自走到哪一步？</h2><p class="caption">“未练”是真实的空白，不会根据旧背词记录虚构听力或应用成绩。</p>${[...new Set([...(getState().days[date()]?.wordDone||[]),...Object.keys(getState().learning?.words||{})])].slice(0,12).map(id=>`<div class="dimension-row"><strong lang="en">${esc(C.wordsFor(getState()).find(w=>w.id===id).word)}</strong>${wordStatus(id)}</div>`).join('')||'<p>完成一次背词、听写或例句练习，这里就会留下记录。</p>'}</section>`;
   const s=session;
   if(s.index>=s.ids.length)return head('A LITTLE WIN','这组练习，已经留下脚印。','结果已保存，答错的内容会留在错题本。')+`<section class="panel glass"><p>${s.ids.length?'本次练习已完成。':'今日这项建议已完成，可以练其他项目，或主动重练。'}</p>${button('返回专项训练','learn-exit')}${button('查看错题本','go-mistakes','','btn secondary')}</section>`;
-  const id=s.ids[s.index],w=WORDS.find(w=>w.id===id),q=L.TRANSFORMS.find(q=>q.id===id),top=`<div class="exercise-toolbar">${button('← 专项训练','learn-exit','','text-btn')}<span>${s.index+1} / ${s.ids.length}</span></div>`;
+  const id=s.ids[s.index],w=C.wordsFor(getState()).find(w=>w.id===id),q=L.TRANSFORMS.find(q=>q.id===id),top=`<div class="exercise-toolbar">${button('← 专项训练','learn-exit','','text-btn')}<span>${s.index+1} / ${s.ids.length}</span></div>`;
   let body='';
   if(s.mode==='dictation'){
    const options=meaningOptions(w);
@@ -41,14 +41,14 @@ export function createLearning({esc,head,button,icon,getState,commit,render,go,t
   if(action==='learn-repeat'){start(el.dataset.mode);session.ids=[...L.makePlan(getState())[el.dataset.mode]];render();}
   if(action==='learn-exit'){session=null;speech.stop();render();}
   if(action==='learn-stop')speech.stop();
-  if(action==='learn-listen'&&session?.mode==='dictation'){const w=WORDS.find(w=>w.id===session.ids[session.index]);stopAudio();const active=session;speech.speak(w.word,{rate:el.dataset.slow ? 0.75 : 1,onstart:()=>{if(session!==active)return;session.played=true;const hint=document.querySelector('#learning-form .caption');if(hint)hint.textContent='听不清可以重播。拼不出时可以留空，再看解析。';}});}
+  if(action==='learn-listen'&&session?.mode==='dictation'){const w=C.wordsFor(getState()).find(w=>w.id===session.ids[session.index]);stopAudio();const active=session;speech.speak(w.word,{rate:el.dataset.slow ? 0.75 : 1,onstart:()=>{if(session!==active)return;session.played=true;const hint=document.querySelector('#learning-form .caption');if(hint)hint.textContent='听不清可以重播。拼不出时可以留空，再看解析。';}});}
   if(action==='learn-next'&&session?.result){speech.stop();session.index++;session.result=null;session.answer='';session.meaning=null;session.played=false;render();window.scrollTo(0,0);}
   if(action==='learn-retry'&&session?.result){session.result=null;session.answer='';session.meaning=null;session.played=false;render();}
   return true;
  }
  function submit(form,values){if(form.id!=='learning-form')return false;
   try{if(!session||session.result)return true;if(session.date!==date())throw new Error('日期已变化，请返回专项训练重新开始。');const id=session.ids[session.index];session.answer=values.answer||'';
-   if(session.mode==='dictation'){if(!session.played)throw new Error('请先播放并听一遍；没有声音时可稍后再练。');session.meaning=values.meaning===undefined?null:Number(values.meaning);session.result=commit(s=>L.answerDictation(s,id,session.meaning,meaningOptions(WORDS.find(w=>w.id===id)),session.answer));}
+   if(session.mode==='dictation'){if(!session.played)throw new Error('请先播放并听一遍；没有声音时可稍后再练。');session.meaning=values.meaning===undefined?null:Number(values.meaning);session.result=commit(s=>L.answerDictation(s,id,session.meaning,meaningOptions(C.wordsFor(getState()).find(w=>w.id===id)),session.answer));}
    if(session.mode==='transform')session.result={correct:commit(s=>L.answerTransform(s,id,session.answer))};
    if(session.mode==='use')session.result={correct:commit(s=>L.answerUse(s,id,session.answer))};
    speech.stop();render();

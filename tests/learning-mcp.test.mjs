@@ -9,7 +9,7 @@ const call=(name,args={})=>({jsonrpc:'2.0',id:1,method:'tools/call',params:{name
 const content=r=>JSON.parse(r.result.content[0].text);
 test('MCP advertises only read-only tools and returns real vocabulary/materials without executing supplied content',async()=>{
  const rpc=createLearningMcp({words:WORDS,materials:LIBRARY});assert.equal((await rpc({jsonrpc:'2.0',id:1,method:'server/discover'})).result.supportedVersions[0],'2026-07-28');
- const tools=(await rpc({jsonrpc:'2.0',id:1,method:'tools/list'})).result.tools;assert.equal(tools.length,5);assert.ok(tools.every(x=>x.annotations.readOnlyHint&&!x.annotations.destructiveHint));
+ const tools=(await rpc({jsonrpc:'2.0',id:1,method:'tools/list'})).result.tools;assert.equal(tools.length,6);assert.ok(tools.every(x=>x.annotations.readOnlyHint&&!x.annotations.destructiveHint));
  assert.ok(content(await rpc(call('search_vocabulary',{query:'suggestion'}))).items.some(x=>x.word==='suggestion'));
  assert.equal(content(await rpc(call('get_learning_material',{id:'r01'}))).material.id,'r01');
  assert.equal((await rpc(call('run_shell',{cmd:'anything'}))).result.isError,true);

@@ -19,17 +19,17 @@ export function makePlan(s,date=C.today()){
  else if(counts['拼写'])reason=`还有 ${counts['拼写']} 个拼写错词，先复习这些容易混淆的字母。`;
  else {const practiced=Object.values(s.learning?.words||{});const tested=practiced.filter(w=>w.recognize?.lastCorrect);if(tested.length>=3&&tested.filter(w=>!w.use?.lastCorrect).length>=3){focus='use';reason='已有至少 3 个词能认出，但例句应用尚待巩固，今天试着把词放回句子。';}}
  const priority=[...unresolved.filter(x=>['拼写','听力'].includes(x.category)&&(x.refId?.startsWith('w')||x.refId?.startsWith('listen:'))).map(x=>x.refId.replace(/^listen:/,'')),...C.dueIds(s,date),...Object.keys(s.cards),...(s.days[date]?.newIds||[]),...WORDS.slice(0,20).map(w=>w.id)];
- const ids=[...new Set(priority)].filter(id=>WORDS.some(w=>w.id===id));
+ const ids=[...new Set(priority)].filter(id=>C.wordsFor(s).some(w=>w.id===id));
  const dictation=ids.slice(0,5);
  const wrongTransforms=new Set(unresolved.filter(m=>m.category==='语法').map(m=>m.refId));
  const transform=[...TRANSFORMS].sort((a,b)=>Number(wrongTransforms.has(b.id))-Number(wrongTransforms.has(a.id))||Number(s.learning?.transforms[a.id]?.lastCorrect||false)-Number(s.learning?.transforms[b.id]?.lastCorrect||false)||(s.learning?.transforms[a.id]?.attempts||0)-(s.learning?.transforms[b.id]?.attempts||0)||a.id.localeCompare(b.id)).slice(0,3).map(x=>x.id);
- const useIds=[...new Set([...ids,...WORDS.filter(hasCloze).map(w=>w.id)])].filter(id=>hasCloze(WORDS.find(w=>w.id===id)));
+ const useIds=[...new Set([...ids,...C.wordsFor(s).filter(hasCloze).map(w=>w.id)])].filter(id=>hasCloze(C.wordsFor(s).find(w=>w.id===id)));
  const use=useIds.find(id=>!s.learning?.words[id]?.use?.lastCorrect)||useIds[0];
  return {focus,reason,dictation,transform,use:use?[use]:[]};
 }
 export function startPlan(s,date=C.today()){const d=trainingDay(s,date);return d.plan??=structuredClone(makePlan(s,date));}
 export function answerDictation(s,id,meaningIndex,options,answer,date=C.today()){
- const w=WORDS.find(x=>x.id===id);if(!w||!Number.isInteger(meaningIndex)||!Array.isArray(options)||!options[meaningIndex])throw new Error('请先选择听到的意思。');
+ const w=C.wordsFor(s).find(x=>x.id===id);if(!w||!Number.isInteger(meaningIndex)||!Array.isArray(options)||!options[meaningIndex])throw new Error('请先选择听到的意思。');
  const heard=options[meaningIndex]===w.meaning,spelled=C.recordSpelling(s,id,answer,date);
  markDimension(s,id,'listen',heard,date);unique(trainingDay(s,date).dictation,id);
  const ref='listen:'+id;
@@ -45,7 +45,7 @@ export function answerTransform(s,id,answer,date=C.today()){
  return correct;
 }
 export function answerUse(s,id,answer,date=C.today()){
- const w=WORDS.find(x=>x.id===id);if(!w||!hasCloze(w))throw new Error('这个词暂无可用的核验例句。');
+ const w=C.wordsFor(s).find(x=>x.id===id);if(!w||!hasCloze(w))throw new Error('这个词暂无可用的核验例句。');
  const correct=C.normaliseAnswer(answer)===w.word.toLowerCase();markDimension(s,id,'use',correct,date);unique(trainingDay(s,date).use,id);C.ensureDay(s,date).activities++;
  if(correct)C.resolveMistakes(s,'单词','use:'+id,date);else C.mistake(s,{category:'单词',refId:'use:'+id,prompt:cloze(w),answer:w.word,userAnswer:answer,note:w.example+'\n'+w.translation},date);
  return correct;
